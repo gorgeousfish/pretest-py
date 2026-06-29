@@ -16,7 +16,7 @@ Installation
 
 .. code-block:: bash
 
-   pip install "pretest-py[data]"
+   pip install "pretest[data]"
 
 **Development install** (from a local clone):
 
@@ -41,29 +41,29 @@ The package ships with several dependency groups:
      - Used by
    * - ``data``
      - pandas DataFrame API (:func:`pretest.pretest_from_dataframe`)
-     - ``pip install "pretest-py[data]"``
+     - ``pip install "pretest[data]"``
      - DataFrame API, Tutorials 1--3
    * - ``progress``
      - tqdm progress bars in Monte Carlo runs
-     - ``pip install "pretest-py[progress]"``
+     - ``pip install "pretest[progress]"``
      - Monte Carlo long runs (optional)
    * - ``paper``
      - matplotlib plotting, numpy, build/publish tools
-     - ``pip install "pretest-py[paper]"``
+     - ``pip install "pretest[paper]"``
      - Event Study Plot, Tutorial 4
    * - ``docs``
      - Sphinx documentation build chain
-     - ``pip install "pretest-py[docs]"``
+     - ``pip install "pretest[docs]"``
      - Documentation builds only
    * - ``test``
      - pytest and related testing utilities
-     - ``pip install "pretest-py[test]"``
+     - ``pip install "pretest[test]"``
      - Test suite only
 
 Python version
 ^^^^^^^^^^^^^^
 
-**pretest-py** requires Python **>= 3.11**.  Python 3.11 and 3.12 are
+**pretest** requires Python **>= 3.11**.  Python 3.11 and 3.12 are
 tested in CI.
 
 

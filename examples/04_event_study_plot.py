@@ -1,7 +1,7 @@
 """04_event_study_plot.py - Event study plot customization showcase.
 
 This script demonstrates the full range of plotting capabilities in
-pretest-py, including:
+pretest, including:
     1. Basic usage with minimal arguments
     2. Custom colors and marker styles
     3. Toggling reference lines
@@ -11,7 +11,7 @@ pretest-py, including:
     7. Integration with matplotlib (annotations, axis adjustments)
 
 Requirements:
-    pip install pretest-py[data] matplotlib
+    pip install pretest[data] matplotlib
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ print("=" * 70)
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas required. Install with: pip install pretest-py[data]")
+    print("\nERROR: pandas required. Install with: pip install pretest[data]")
     sys.exit(1)
 
 try:
@@ -45,7 +45,7 @@ from pretest import (
 from pretest.plotting import extract_plot_data, plot_event_study
 from pretest.covariance import compute_influence_matrix, compute_standard_covariance
 
-print(f"\nUsing pretest-py version: {pretest.__version__}")
+print(f"\nUsing pretest version: {pretest.__version__}")
 
 output_dir = Path(__file__).parent / "output"
 output_dir.mkdir(exist_ok=True)

@@ -391,7 +391,7 @@ group-level clustering (Cameron & Miller, 2015).
 Scope and Limitations
 ---------------------
 
-pretest-py implements the conditional extrapolation pre-testing framework
+pretest implements the conditional extrapolation pre-testing framework
 for block-adoption DID designs. In version 0.1.0:
 
 **Supported:**

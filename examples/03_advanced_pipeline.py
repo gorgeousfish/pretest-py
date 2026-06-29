@@ -19,7 +19,7 @@ Steps covered:
     11. Integration with external DID tools (e.g., PyFixest)
 
 Requirements:
-    pip install pretest-py[data]
+    pip install pretest[data]
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ print("=" * 70)
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas required. Install with: pip install pretest-py[data]")
+    print("\nERROR: pandas required. Install with: pip install pretest[data]")
     sys.exit(1)
 
 import pretest
@@ -52,7 +52,7 @@ from pretest import (
     extract_nu_covariance,
 )
 
-print(f"\nUsing pretest-py version: {pretest.__version__}")
+print(f"\nUsing pretest version: {pretest.__version__}")
 
 # ===========================================================================
 # Step 1: Create data and compute group means

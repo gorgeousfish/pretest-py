@@ -8,7 +8,7 @@ This tutorial demonstrates:
 5. Customizing DGP configurations
 
 Requirements:
-    pip install pretest-py[data]
+    pip install pretest[data]
 """
 
 from __future__ import annotations
@@ -19,15 +19,15 @@ import time
 try:
     import pandas as pd
 except ImportError:
-    print("ERROR: pandas is required. Install with: pip install pretest-py[data]")
+    print("ERROR: pandas is required. Install with: pip install pretest[data]")
     sys.exit(1)
 
 import pretest
 
 print("=" * 70)
-print("  pretest-py: Monte Carlo Simulation with Built-in DGP")
+print("  pretest: Monte Carlo Simulation with Built-in DGP")
 print("=" * 70)
-print(f"\nUsing pretest-py version: {pretest.__version__}")
+print(f"\nUsing pretest version: {pretest.__version__}")
 
 # ---------------------------------------------------------------------------
 # Step 1: Generate DID data from a built-in preset

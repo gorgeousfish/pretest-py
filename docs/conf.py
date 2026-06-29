@@ -1,4 +1,4 @@
-"""Sphinx configuration for pretest-py documentation."""
+"""Sphinx configuration for pretest documentation."""
 
 import os
 import sys

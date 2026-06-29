@@ -27,7 +27,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 **Python package**
 
-- Releasable `pretest-py` package with a typed public API and console script
+- Releasable `pretest` package with a typed public API and console script
 - Stata-style command parser, dataset validation, severity, kappa, confidence
   interval, and high-level `compute_pretest_snapshot(...)` helpers
 - Monte Carlo simulation APIs including `compute_psi(...)`,
@@ -56,4 +56,4 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Requirements
 
 - Stata 17.0 or later
-- Python 3.11 or later for the `pretest-py` package
+- Python 3.11 or later for the `pretest` package

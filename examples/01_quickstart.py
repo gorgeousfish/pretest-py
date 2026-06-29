@@ -1,11 +1,11 @@
-"""01_quickstart.py - Minimal working example of the pretest-py package.
+"""01_quickstart.py - Minimal working example of the pretest package.
 
 This script demonstrates the simplest possible usage of the conditional
 extrapolation pre-test framework (Mikhaeil & Harshaw, 2026). It creates
 a synthetic DID dataset, runs the pre-test, and interprets the results.
 
 Requirements:
-    pip install pretest-py[data] matplotlib
+    pip install pretest[data] matplotlib
 """
 
 from __future__ import annotations
@@ -25,18 +25,18 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 print("=" * 70)
-print("  pretest-py Quickstart: Conditional Extrapolation Pre-Test")
+print("  pretest Quickstart: Conditional Extrapolation Pre-Test")
 print("=" * 70)
 
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas is required. Install with: pip install pretest-py[data]")
+    print("\nERROR: pandas is required. Install with: pip install pretest[data]")
     sys.exit(1)
 
 import pretest
 
-print(f"\nUsing pretest-py version: {pretest.__version__}")
+print(f"\nUsing pretest version: {pretest.__version__}")
 
 # Build synthetic data: 5 periods, treatment at period 4
 # Pre-treatment: Y_control grows by +1 per period, Y_treated grows by +1 per period

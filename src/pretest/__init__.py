@@ -72,7 +72,7 @@ def _load_local_project_version() -> str:
 
 def _resolve_package_version() -> str:
     try:
-        return importlib_metadata.version("pretest-py")
+        return importlib_metadata.version("pretest")
     except importlib_metadata.PackageNotFoundError:
         return _load_local_project_version()
 

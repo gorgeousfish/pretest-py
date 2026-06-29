@@ -3,7 +3,7 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pretest-py"
+name = "pretest"
 version = "0.1.0"
 description = "Conditional extrapolation pre-testing for difference-in-differences in Python"
 readme = "README.md"
@@ -37,11 +37,11 @@ paper = ["build>=1.2", "matplotlib>=3.8", "numpy>=2", "twine>=6", "pandas>=2"]
 docs = ["sphinx>=7.0", "sphinx-rtd-theme>=2.0", "sphinx-autodoc-typehints>=2.0", "myst-parser>=2.0"]
 
 [project.urls]
-Homepage = "https://github.com/gorgeousfish/pretest"
-Repository = "https://github.com/gorgeousfish/pretest"
-Documentation = "https://github.com/gorgeousfish/pretest/tree/main/pretest-py"
-Issues = "https://github.com/gorgeousfish/pretest/issues"
-Changelog = "https://github.com/gorgeousfish/pretest/blob/main/pretest-py/CHANGELOG.md"
+Homepage = "https://github.com/gorgeousfish/pretest-py"
+Repository = "https://github.com/gorgeousfish/pretest-py"
+Documentation = "https://github.com/gorgeousfish/pretest-py"
+Issues = "https://github.com/gorgeousfish/pretest-py/issues"
+Changelog = "https://github.com/gorgeousfish/pretest-py/blob/main/CHANGELOG.md"
 
 [project.scripts]
 pretest = "pretest.cli:main"

@@ -1,4 +1,4 @@
-# pretest-py
+# pretest
 
 **Conditional extrapolation pre-testing for Difference-in-Differences in Python**
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-`pretest-py` implements the conditional extrapolation pre-test and
+`pretest` implements the conditional extrapolation pre-test and
 interval-reporting rule of Mikhaeil and Harshaw as a typed Python API and CLI.
 It starts after a DID or event-study workflow has supplied compatible
 pre-treatment violations, covariance or critical-value information, timing,
@@ -241,7 +241,7 @@ the helper returns a structured invalid-result snapshot immediately and does not
 require kernel inputs that would never be used.
 
 When an upstream Python DID or event-study workflow has already produced
-coefficient and covariance output, `pretest-py` starts at the reporting handoff.
+coefficient and covariance output, `pretest` starts at the reporting handoff.
 The upstream estimation step supplies the pre-event coefficients, covariance
 matrix, effect center, standard error, sample size, and time index; the caller
 orders those quantities into the conditional-extrapolation inputs:
@@ -251,7 +251,7 @@ import numpy as np
 import pretest
 
 # The manuscript replication script estimates these event-time coefficients
-# from a small fixed-effects event-study design before calling pretest-py.
+# from a small fixed-effects event-study design before calling pretest.
 relative_terms = (-2, -1, 0, 1, 2)
 event_coefficients = np.array([0.125195, -0.075836, -0.270610, -0.311162, -0.239842])
 event_covariance = np.array([
@@ -637,7 +637,7 @@ GitHub Actions workflow `.github/workflows/python-release-gates.yml` can also be
 run manually before tagging; after the package tests pass, it builds the wheel
 and source distribution, validates their metadata, and makes the checked files
 downloadable from the workflow run under the name
-`pretest-py-0.1.0-distributions`. The command block below is the local
+`pretest-0.1.0-distributions`. The command block below is the local
 equivalent: it builds the wheel and source distribution, validates their
 metadata, installs the wheel, and exercises the installed command path used in
 the article:
@@ -645,7 +645,7 @@ the article:
 ```bash
 python -m build
 twine check dist/*
-python -m pip install dist/pretest_py-0.1.0-py3-none-any.whl
+python -m pip install dist/pretest-0.1.0-py3-none-any.whl
 python -m pretest --version
 python -m pretest prop99-python-handoff-summary --records-csv PATH --format text
 ```
@@ -659,7 +659,7 @@ command when those fixed-reference files are present and
 `PRETEST_ENABLE_SOURCE_TREE_HELPERS=1` is set.
 
 The package and article materials are ready for public submission only when the
-versioned `pretest-py` source is available at the declared repository URL under
+versioned `pretest` source is available at the declared repository URL under
 a versioned tag or GitHub release, the checked distribution resolves from PyPI
 or an equivalent public install channel, the source and reproduction files have
 a persistent archive record such as Zenodo, and the Proposition 99
@@ -894,7 +894,7 @@ page exists.
 
 **APA Format:**
 
-> Cai, X., & Xu, W. (2025). *pretest-py: Software for conditional extrapolation pre-testing in Python* (Version 0.1.0) [Computer software]. Source and reproduction files pending persistent DOI, versioned release URL, or public package page.
+> Cai, X., & Xu, W. (2025). *pretest: Software for conditional extrapolation pre-testing in Python* (Version 0.1.0) [Computer software]. Source and reproduction files pending persistent DOI, versioned release URL, or public package page.
 >
 > Mikhaeil, J. M., & Harshaw, C. (2026). Valid Inference when Testing Violations of Parallel Trends for Difference-in-Differences. *arXiv preprint arXiv:2510.26470v3*. https://arxiv.org/abs/2510.26470
 
@@ -902,7 +902,7 @@ page exists.
 
 ```bibtex
 @software{pretestpy2025,
-      title={pretest-py: Software for conditional extrapolation pre-testing in Python},
+      title={pretest: Software for conditional extrapolation pre-testing in Python}
       author={Xuanyu Cai and Wenli Xu},
       year={2025},
       version={0.1.0},

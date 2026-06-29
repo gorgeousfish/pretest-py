@@ -1,11 +1,11 @@
-# pretest-py Examples
+# pretest Examples
 
 Runnable tutorials demonstrating the conditional extrapolation pre-test framework.
 
 ## Prerequisites
 
 ```bash
-pip install pretest-py[data]     # pandas support
+pip install pretest[data]     # pandas support
 pip install matplotlib           # for plotting examples
 ```
 

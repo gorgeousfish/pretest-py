@@ -1,7 +1,7 @@
 Mathematical Background
 =======================
 
-This page provides the mathematical foundations underlying the **pretest-py**
+This page provides the mathematical foundations underlying the **pretest**
 API.  It is not a reproduction of the full paper; rather, it gives the
 practitioner enough notation to understand what each function computes
 and why.  For proofs and detailed assumptions, see Mikhaeil & Harshaw (2026).
