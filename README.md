@@ -16,41 +16,26 @@
 interval-reporting rule of Mikhaeil and Harshaw as a typed Python API and CLI.
 It starts after a DID or event-study workflow has supplied compatible
 pre-treatment violations, covariance or critical-value information, timing,
-sample size, an interval center, and an analyst threshold. The main public
-object is a `PretestResultSnapshot`: it keeps validation state, severity,
-threshold, pass decision, simulation settings, conventional interval, and
-conditional interval fields together so reporting code can read interval bounds
-with the decision that makes them available.
-
-Conventional pre-tests for parallel trends suffer from a fundamental limitation:
-failing to reject the null hypothesis is uninformative, as the test may simply
-lack power. Moreover, conditioning on passing such tests can lead to severe
-inference distortions (Roth, 2022). This package implements the conditional
-extrapolation reporting step on the supported block-adoption DID surface; it is
-not a replacement for upstream DID estimators, staggered-adoption aggregation,
-or sensitivity-analysis packages.
+sample size, an interval center, and an analyst threshold. The main returned
+object is a `PretestResultSnapshot` that keeps validation state, severity,
+threshold, pass decision, simulation settings, and conditional/conventional
+interval fields together.
 
 Under the **conditional extrapolation assumption**, if pre-treatment violations
 do not exceed an acceptable threshold *M*, the conditional interval becomes
-reportable under the method's stated restriction:
+reportable:
 
 > **Assumption 3 (Conditional Extrapolation):** If *S* <sub>pre </sub> ≤ *M*, then *S* <sub>post </sub> ≤ *S* <sub>pre </sub>.
 
 The package provides:
 
-- A Python implementation of the method's pre-test, severity calculation,
-  and conditional interval reporting rule
-- A `PretestResultSnapshot` API that exposes the decision state, conditional
-  interval, conventional comparison interval, diagnostics, and simulation
-  settings in one returned object
-- Record-backed Proposition 99 and upstream-estimator handoff examples showing
-  how caller-supplied records or coefficient/covariance output enter the
-  snapshot API
+- Pre-test, severity calculation, and conditional interval reporting rule
+- A `PretestResultSnapshot` API exposing decision state, conditional interval,
+  conventional comparison interval, diagnostics, and simulation settings
+- Record-backed Proposition 99 and upstream-estimator handoff examples
 - **Conditional confidence-interval fields** centered on the paper's average DID estimand (`delta_bar`), with ATT-labeled compatibility surfaces documented as aliases rather than canonical ATT-level outputs
 
 ## Requirements
-
-**Before using this package, ensure your data meets the following requirements:**
 
 | Requirement                         | Description                                                                                                                                                                 |
 | :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -63,8 +48,7 @@ The package provides:
 ### Data Completeness
 
 When some time periods lack observations for either group, the covariance matrix
-cannot be computed. In the Python API this returns an invalid
-`PretestResultSnapshot` before any kernel inputs are required:
+cannot be computed. The Python API returns an invalid `PretestResultSnapshot`:
 
 - `snapshot.reporting_summary()["decision"]` is `"INVALID"`
 - `snapshot.reporting_summary()["data_valid"]` is `0`
@@ -73,18 +57,8 @@ cannot be computed. In the Python API this returns an invalid
   field are `None`
 
 The Stata-compatible `e(...)` aliases for those states are documented in the
-stored-results section for companion reference outputs; Python reporting code
-should normally read `reporting_summary()`, `conditional_interval()`, and
-`conventional_interval()`.
-
-**Common causes:**
-
-- Missing values in treatment or outcome variables creating empty cells
-- Survey data with irregular interview schedules
-- Sample restrictions that eliminate entire time periods for one group
-
-**Solution:** Ensure at least one observation per time-treatment cell, or restrict
-analysis to time periods with complete coverage.
+stored-results section; Python reporting code should read `reporting_summary()`,
+`conditional_interval()`, and `conventional_interval()`.
 
 ### Two-Period Designs
 
@@ -101,29 +75,22 @@ From the Python package directory:
 python -m pip install .
 ```
 
-For source-based reproduction and package checks, use an editable install with
-the test and paper extras. The `paper` extra supplies the build, plotting, and
-distribution-check tools used by the generated article outputs and wheel/sdist
-checks.
+For source-based reproduction with test and paper extras:
 
 ```bash
 python -m pip install -e ".[test,paper]"
 ```
 
 The article build also requires a TeX distribution with `pdflatex` and `bibtex`
-available on `PATH` for the JSS PDF.
+on `PATH`.
 
-From the public repository URL, once the versioned release exposes the
-`pretest-py` source directory:
+From the public repository URL:
 
 ```bash
 python -m pip install "git+https://github.com/gorgeousfish/pretest.git#subdirectory=pretest-py"
 ```
 
-Until that public repository path is available, use the local package-directory
-or source-archive installation path above.
-
-After installation, check that the command-line entry point is available:
+After installation, check the command-line entry point:
 
 ```bash
 python -m pretest --version
@@ -132,33 +99,22 @@ python -m pretest prop99-python-handoff-summary \
   --format text
 ```
 
-The handoff command reads a regenerated CSV with columns `cigsale`, `treated`,
-and `year`, computes the kernel inputs and Python critical value, and prints the
-result snapshot used by the paper. The manuscript reproduction recipe writes
-the displayed CSV path; outside that source tree, pass any CSV regenerated from
-the documented CRAN `tidysynth` route, or caller-supplied records with the same
-columns. This is the public-package path for the Prop99 example: it lets a
-reader materialize the reduced records and pass them into the same Python
-workflow instead of requiring observation-level records to be shipped in a
-public wheel.
-Fixed-reference summaries remain local reproduction material; the public
-example uses regenerated or caller-supplied records through `--records-csv`.
+The handoff command reads a CSV with columns `cigsale`, `treated`, and `year`,
+computes kernel inputs and the Python critical value, and prints the result
+snapshot. Pass any CSV regenerated from the documented CRAN `tidysynth` route,
+or caller-supplied records with the same columns.
 
 ## Quick Start
 
-After installation, the Python package exposes a typed API and reference-oriented
-CLI helpers. It does not read arbitrary Stata `.dta` files or run a full
-data-estimation command from the shell; use the Stata companion for that
-workflow.
+The Python package exposes a typed API and CLI helpers. It does not read
+arbitrary Stata `.dta` files; use the Stata companion for that workflow.
 
 ```bash
 python -m pretest --version
 python -m pretest prop99-python-handoff-summary --records-csv PATH --format text
 ```
 
-For the Proposition 99 records regenerated by the manuscript reproduction recipe,
-the shortest Python path loads the external CSV and returns the reporting
-snapshot directly:
+The shortest Python path from Proposition 99 records to a reporting snapshot:
 
 ```python
 import pretest
@@ -185,8 +141,7 @@ summary["conditional_interval"]  # conditional interval bounds
 summary["conventional_interval"] # comparison interval bounds
 ```
 
-For a Python-only snapshot from already-computed inputs, provide the validated
-command surface and the kernel inputs needed by the paper formulas:
+For a snapshot from already-computed inputs:
 
 ```python
 import pretest
@@ -212,10 +167,8 @@ summary["conventional_interval"]
 
 ## High-Level Snapshot API
 
-If you already have the validated command surface plus the kernel inputs needed
-for the paper's formulas, `pretest.compute_pretest_snapshot(...)` now assembles
-the full package snapshot in one call instead of forcing callers to manually
-chain parser, validation, severity, kappa, CI, and snapshot helpers:
+`pretest.compute_pretest_snapshot(...)` assembles the full package snapshot in
+one call from the validated command surface and kernel inputs:
 
 ```python
 import pretest
@@ -234,17 +187,13 @@ snapshot = pretest.compute_pretest_snapshot(
 )
 ```
 
-When `profile` already contains `time_periods` and the command specifies
-`treat_time(...)`, the helper infers `T_post` automatically for the kappa
-calculation. When validation fails because the dataset profile is incomplete,
-the helper returns a structured invalid-result snapshot immediately and does not
-require kernel inputs that would never be used.
+When `profile` contains `time_periods` and the command specifies
+`treat_time(...)`, the helper infers `T_post` automatically. When validation
+fails, it returns an invalid-result snapshot immediately without requiring
+kernel inputs.
 
 When an upstream Python DID or event-study workflow has already produced
-coefficient and covariance output, `pretest` starts at the reporting handoff.
-The upstream estimation step supplies the pre-event coefficients, covariance
-matrix, effect center, standard error, sample size, and time index; the caller
-orders those quantities into the conditional-extrapolation inputs:
+coefficient and covariance output, `pretest` starts at the reporting handoff:
 
 ```python
 import numpy as np
@@ -288,13 +237,10 @@ snapshot = pretest.compute_pretest_snapshot(
 )
 ```
 
-This is an executable estimate-to-snapshot example in the paper replication
-materials, not a direct adapter for a specific upstream estimator. The
-covariance dimension must match `(T_pre - 1) + T_post` after the time profile
-and treatment time are resolved.
+The covariance dimension must match `(T_pre - 1) + T_post` after the time
+profile and treatment time are resolved.
 
-For reporting code, the snapshot exposes a compact reader-facing view in
-addition to the full reference-comparison dictionary:
+The snapshot exposes a compact reporting view:
 
 ```python
 summary = snapshot.reporting_summary()
@@ -308,13 +254,11 @@ snapshot.conditional_interval()
 snapshot.conventional_interval()
 ```
 
-For a report, keep the interval together with the state that makes it
-readable. A compact table should include at least `mode`, `data_valid`, `S_pre`,
+A compact report table should include `mode`, `data_valid`, `S_pre`,
 `threshold`, `decision`, `f_alpha`, `simulations`, `seed`,
 `conditional_interval`, and `conventional_interval`. If `decision` is `FAIL` or
-`INVALID`, report the conditional interval as unavailable instead of copying
-numeric endpoints from another run; the conventional interval is a separate
-comparison family, not a substitute for the conditional interval.
+`INVALID`, report the conditional interval as unavailable; the conventional
+interval is a separate comparison family.
 
 The Stata-style command parser keeps the severity option explicit:
 
@@ -323,14 +267,11 @@ The Stata-style command parser keeps the severity option explicit:
 | `p(#)` | 2 | Severity norm *p* >= 1; use `p(.)` or `p(1e10)` for L-infinity |
 
 `pretest.compute_critical_value(...)` and `pretest.compute_psi(...)` expose the
-simulation kernel directly for callers that already have a covariance matrix or
-draw-level error vectors. The critical-value path is deterministic for a fixed
-seed and follows the same dimension convention as the Stata/Mata reference:
-`(T_pre - 1) + T_post`. In `mode="overall"`, the helper treats the supplied
-covariance as the raw iterative-mode `Sigma` object and applies the Appendix C
-bridge internally before simulating `f^Delta(alpha, Sigma^Delta)`. Callers that
-already hold cumulative-coordinate `Sigma^Delta` should pass
-`covariance_form="overall"` so the bridge is not applied a second time.
+simulation kernel directly. The critical-value path is deterministic for a fixed
+seed and follows the dimension convention `(T_pre - 1) + T_post`. In
+`mode="overall"`, the helper applies the Appendix C bridge internally before
+simulating `f^Delta(alpha, Sigma^Delta)`. Callers holding cumulative-coordinate
+`Sigma^Delta` should pass `covariance_form="overall"` to skip the bridge.
 
 ```python
 import pretest
@@ -348,10 +289,9 @@ f_alpha = pretest.compute_critical_value(
 ```
 
 Snapshot callers can omit `f_alpha` when they provide `covariance_matrix`,
-`simulations`, and `seed`; the snapshot diagnostics then record the simulation
-settings used for the computed critical value. That same overall-mode bridge is
-applied inside `compute_pretest_snapshot(...)`, so callers can keep passing the
-raw covariance object instead of pre-transforming `Sigma^Delta` themselves.
+`simulations`, and `seed`; the snapshot diagnostics record the simulation
+settings used. The same overall-mode bridge is applied inside
+`compute_pretest_snapshot(...)`.
 
 ```python
 import pretest
@@ -368,27 +308,20 @@ snapshot = pretest.compute_pretest_snapshot(
 )
 ```
 
-For overall-mode snapshots, callers may set `pre_violations_form="overall"`
-when `nu_vector` already carries cumulative `nu_bar` coordinates; that option
-treats `nu_vector` as `nu_bar`. Otherwise
-the helper treats `nu_vector` as iterative violations and carries
-`nu_bar_vector` explicitly. The `nu_vector` length must match `T_pre - 1`, and
-the helper keeps `nu_vector` in the iterative coordinate even when
-`mode="overall"` unless that overall coordinate form is declared. Use
-`covariance_form="iterative"` for raw iterative covariance targets; the snapshot
-records covariance targets `theta = (nu, delta)`. This records estimator is a
-repeated-cross-section surface: it does not accept panel identifiers or cluster
-variables, reports `e(is_panel)=0`, and records `covariance_estimator` metadata
-for the covariance source used by the snapshot. The influence rows use the
-Stata/Mata `n / n_td` weighting convention, and the covariance divides by
-`n - 1`. The packaged records estimator does not implement cluster covariance.
+For overall-mode snapshots, set `pre_violations_form="overall"` when
+`nu_vector` already carries cumulative `nu_bar` coordinates. The `nu_vector`
+length must match `T_pre - 1`. Use `covariance_form="iterative"` for raw
+iterative covariance targets; the snapshot records covariance targets
+`theta = (nu, delta)`. The records estimator is a repeated-cross-section
+surface: it does not accept panel identifiers or cluster variables, reports
+`e(is_panel)=0`, and uses the Stata/Mata `n / n_td` weighting convention with
+`n - 1` divisor. Cluster covariance is not implemented.
 
-`pretest.simulate_coverage(...)` closes the same simulation surface by turning
-draw-level `delta_bar` / `S_pre` sequences into a deterministic
-`SimulationCoverageResult` summary. The summary reports the total replications,
-the pretest pass rate, `conditional_coverage` among passing draws,
-`valid_reporting_rate` as the unconditional coverage rate over all draws, and
-`mean_ci_width_when_passed` for the reported conditional intervals.
+`pretest.simulate_coverage(...)` turns draw-level `delta_bar` / `S_pre`
+sequences into a deterministic `SimulationCoverageResult`. The summary reports
+total replications, pretest pass rate, `conditional_coverage` among passing
+draws, `valid_reporting_rate` as unconditional coverage over all draws, and
+`mean_ci_width_when_passed`.
 
 ```python
 import pretest
@@ -410,57 +343,33 @@ coverage.mean_ci_width_when_passed
 ```
 
 `pretest.simulate_coverage_from_covariance(...)` adds the covariance-level
-coverage summary rather than the raw Section 6 outcome generator. The
-`simulations` argument controls the critical-value Monte Carlo order statistic;
-use `coverage_replications` when the coverage draw count should differ,
-otherwise the helper uses `simulations` for both counts. `delta_bar` draws are
-centered at `tau_bar - true_post_violation_mean`, with
-`true_post_violation_mean=0` as the no-post-violation case.
-Call it separately for the pre-treatment range `2,...,t0-1` and post-treatment range when
-constructing `true_pre_violations` and `true_post_violations`; the helper is
-`pretest.compute_section6_violation_path(...)`. The Section 6 reference path is
-`log(T) * (sin(t) + cos(t/2))` and scales each pre- or post-treatment range to
-the target normalized severity. In overall mode,
-`simulate_coverage(...)` uses the Appendix C kappa-free half-width, while
-`simulate_coverage_from_covariance(...)` derives the paper kappa for iterative
-coordinates. When `pre_violations_form="overall"`, inputs are already the
-cumulative `nu_bar` / `Delta` coordinate; `post_violations_form="overall"`
-averages the implied post overall violations. The raw sample-design generator is
-outside this Python helper: by the time callers use
-`simulate_coverage_from_covariance(...)`, the panel or repeated-cross-section
-design has already been summarized into covariance and violation-path inputs.
+coverage summary. The `simulations` argument controls the critical-value Monte
+Carlo order statistic; use `coverage_replications` when the coverage draw count
+should differ. `delta_bar` draws are centered at
+`tau_bar - true_post_violation_mean`, with `true_post_violation_mean=0` as the
+no-post-violation case. The Section 6 reference violation path is
+`pretest.compute_section6_violation_path(...)`, using
+`log(T) * (sin(t) + cos(t/2))` scaled to target normalized severity.
 
-Overall simulation helpers require `kappa=1` on the overall path. Covariance
-inputs must be a symmetric positive-semidefinite covariance matrix; degenerate
-PSD inputs keep their exact Gaussian law and may produce `f_alpha = 0.0`
-instead of synthetic regularization noise. Use `covariance_form="overall"` when
-the covariance is already on the overall coordinate surface, without applying
-that bridge a second time. For numerical L-infinity behavior, `p_norm >= 1e10`
-is the finite numeric sentinel `p(1e10)`: `p(.)` and `p(1e10)` both select the L-infinity
-path, while stable log-space power means preserve the paper's finite limiting
-objects.
+In overall mode, `simulate_coverage(...)` uses the Appendix C kappa-free
+half-width; `simulate_coverage_from_covariance(...)` derives the paper kappa for
+iterative coordinates. When `pre_violations_form="overall"`, inputs are already
+the cumulative `nu_bar` / `Delta` coordinate. Overall simulation helpers require
+`kappa=1`. Degenerate PSD covariance inputs keep their exact Gaussian law and
+may produce `f_alpha = 0.0`. For L-infinity behavior, `p_norm >= 1e10` is the
+finite numeric sentinel: both `p(.)` and `p(1e10)` select the L-infinity path.
 
-`SimulationCoverageResult.to_dict()` returns a JSON-ready mapping; that mapping
-includes the proposed and conventional coverage rates plus their conditional
-and valid-reporting standard error keys: `conditional_coverage_standard_error`,
-`valid_reporting_rate_standard_error`, `conventional_conditional_coverage`,
+`SimulationCoverageResult.to_dict()` returns a JSON-ready mapping including
+proposed and conventional coverage rates with standard error keys:
+`conditional_coverage_standard_error`, `valid_reporting_rate_standard_error`,
+`conventional_conditional_coverage`,
 `conventional_conditional_coverage_standard_error`,
 `conventional_valid_reporting_rate`, and
-`conventional_valid_reporting_rate_standard_error`. This mirrors the paper-side
-convention: the conventional valid reporting standard error also uses all
-replications, not only passing draws. If
-`conventional_half_width` is omitted, the legacy fallback is not the pretest critical value `f_alpha`.
-That fallback is a legacy proxy, not the paper/Stata conventional DID interval.
-After the critical-value simulation, the coverage helper then uses the same
-deterministic random stream's subsequent draws for the coverage replications.
-
-For simulation and packaged Prop99 reference helpers, the Python outputs keep the
-main design choices visible: `mode`, `t_pre`, `t_post`, `p_norm`, `kappa`, the
-centering of `delta_bar`, and whether post-treatment violations are supplied as
-iterative or overall coordinates. The Prop99 commands are local reproduction
-aids for the packaged Stata evidence and graph preview. They do not turn the
-current Python package into a full data-estimation command, and they do not
-establish complete Python/Stata parity for the Prop99 case.
+`conventional_valid_reporting_rate_standard_error`. If
+`conventional_half_width` is omitted, the legacy fallback is not the pretest
+critical value `f_alpha`. After the critical-value simulation, the coverage
+helper uses the same deterministic random stream's subsequent draws for coverage
+replications.
 
 ```python
 import pretest
@@ -528,22 +437,15 @@ For the paper formulas, use `compute_severity(...)`, `classify_pretest(...)`,
 For simple group-time data and covariance handoffs, use
 `pretest_from_dataframe(...)`, `compute_influence_matrix(...)`,
 `compute_standard_covariance(...)`, `compute_cluster_robust_covariance(...)`,
-and `extract_nu_covariance(...)`. These helpers derive or inspect the
-quantities that later enter a `PretestResultSnapshot`; they are not a general
-replacement for upstream DID, event-study, or sensitivity-analysis packages.
+and `extract_nu_covariance(...)`.
 
-For assembled outputs, use `compute_pretest_snapshot(...)` when you already have
-validated command metadata and the kernel inputs needed by the formulas,
-`PretestResultSnapshot` for the returned object,
-`load_prop99_window_iter_records_from_csv(...)` for regenerated or otherwise
-caller-supplied Prop99 records with columns `cigsale`, `treated`, and `year`,
-and
-`compute_pretest_snapshot_from_records(...)` when complete group-time records
-should be turned directly into a reporting snapshot. Use
-`compute_pretest_kernel_inputs_from_records(...)` when you want to inspect the
-derived kernel inputs separately. For simulation summaries, use `simulate_coverage(...)`,
-`simulate_coverage_from_covariance(...)`, `SimulationCoverageResult`, and
-`compute_section6_violation_path(...)`.
+For assembled outputs, use `compute_pretest_snapshot(...)`,
+`PretestResultSnapshot`,
+`load_prop99_window_iter_records_from_csv(...)`,
+`compute_pretest_snapshot_from_records(...)`, and
+`compute_pretest_kernel_inputs_from_records(...)`. For simulation summaries, use
+`simulate_coverage(...)`, `simulate_coverage_from_covariance(...)`,
+`SimulationCoverageResult`, and `compute_section6_violation_path(...)`.
 
 For M-sensitivity analysis, use `compute_m_sensitivity(...)` and
 `MSensitivityResult`.
@@ -553,72 +455,40 @@ For data generating processes and Monte Carlo coverage experiments, use
 `compute_true_covariance(...)`, `run_monte_carlo_coverage(...)`, and
 `MonteCarloResult`.
 
-The stable root namespace intentionally stays smaller than the local
-reproduction surface. Internal validation-state helpers such as
-`pretest.validation.ValidationState` and `pretest.validation.apply_validation_outcome(...)`
-remain available from their implementation modules for package internals and
-legacy tests, but they are not promoted as stable root API. Packaged Prop99
-summaries and reference checks remain available through submodules and CLI
-commands rather than through `pretest.__all__`: use
+The stable root namespace is intentionally smaller than the local reproduction
+surface. Packaged Prop99 summaries and reference checks remain available through
+submodules and CLI commands:
 `pretest.data_estimators.load_prop99_window_iter_records(...)`,
 `pretest.data_estimators.build_prop99_python_handoff_summary(...)`,
 `pretest.data_estimators.build_prop99_window_iter_parity_summary(...)`,
 `pretest.data_estimators.build_prop99_window_overall_deterministic_split_capture_evidence(...)`,
 `pretest.replay_summary.materialize_prop99_replay_summary(...)`,
 `pretest.replay_summary.load_prop99_nonoverall_split_capture_inventory(...)`,
-and `pretest.plotting.render_event_study_svg(...)` when rebuilding the packaged
-article example or inspecting fixed reference outputs. These helpers summarize
-packaged reference outputs and deterministic checks; they are not a substitute
-for a full arbitrary-data estimator, a stable root API commitment, or Stata RNG
-parity.
+and `pretest.plotting.render_event_study_svg(...)`.
 
 ## Prop99 Public Example And Reference Helpers
 
 The Proposition 99 handoff command reads reduced records from an explicit CSV,
-derives the DID quantities used by the conditional extrapolation rule, computes
-the Python Monte Carlo critical value with the recorded seed and simulation
-count, and prints the snapshot fields that downstream code would inspect:
+derives the DID quantities, computes the Python Monte Carlo critical value, and
+prints the snapshot fields:
 
 ```bash
 python -m pretest prop99-python-handoff-summary --records-csv PATH --format text
 ```
 
-The CSV must have the same reduced-window columns used by the reproduction
-script: `cigsale`, `treated`, and `year`.
+The CSV must have columns `cigsale`, `treated`, and `year`.
 
 Additional local reference helpers inspect Stata stored results and graph
-preview material when the fixed-reference files are available. They are reached
-through implementation modules such as
-`pretest.replay_summary.materialize_prop99_replay_summary(...)`,
-`pretest.replay_summary.load_prop99_nonoverall_split_capture_inventory(...)`,
-and `pretest.plotting.render_event_study_svg(...)`, not through the default
-public wheel command surface. These helpers are intended for local article
-reproduction and reference-output inspection; they are not part of the public
-wheel interface and they are not a general Python data estimator. The handoff
-output shows the Python snapshot fields; the reference outputs summarize the
-case design, Stata stored results, graph-preview state, and bounded comparison
-metadata. The JSON outputs expose the same information for downstream checks.
+preview material when fixed-reference files are available, reached through
+`pretest.replay_summary` and `pretest.plotting` submodules. These are local
+reproduction aids, not part of the public wheel interface.
 
-For the current bundled Prop99 overall case, the graph sidecar contains the
-expected plotting series (`series_complete: true`) and matches the derived
-event-study preview used by the article figure. The current overall same-case
-comparison remains a local reference summary rather than a public wheel claim.
-
-For user-facing Python analysis, prefer the record-backed API path shown above:
-load or assemble group-time records, compute kernel inputs, and call
-`compute_pretest_snapshot(...)`; deterministic same-case agreement and simulated
-critical-value differences are interpreted in the manuscript reproduction outputs
-where the fixed-reference files are available.
-
-For the publication release, the bundled Prop99 fixture policy is deliberately
-separate from the public wheel. The public package should not ship
-observation-level or derived Prop99 fixtures unless redistribution clearance is
-documented. The manuscript reproduction recipe rebuilds the reduced records from
-CRAN `tidysynth` and passes them to the public API with `--records-csv`.
+For user-facing analysis, prefer the record-backed API path: load group-time
+records, compute kernel inputs, and call `compute_pretest_snapshot(...)`.
 
 ## Distribution And Public Release Checks
 
-To check the companion Stata files from a local copy:
+To install the companion Stata files from a local copy:
 
 ```stata
 cd "/path/to/pretest"
@@ -626,21 +496,10 @@ net install pretest, from("`c(pwd)'/pretest-stata") replace
 net get pretest, from("`c(pwd)'/pretest-stata") replace
 ```
 
-An SSC install path is not advertised for this release. After the Stata package
-files are published to a public GitHub branch or release, replace the local path
-with the corresponding raw package URL.
-
-Before a public tag or package-index upload, run the Python distribution checks
-from a clean copy of the repository. Run the package documentation and behavior
-tests on Python 3.11 and 3.12 in CI or an equivalent clean environment. The
-GitHub Actions workflow `.github/workflows/python-release-gates.yml` can also be
-run manually before tagging; after the package tests pass, it builds the wheel
-and source distribution, validates their metadata, and makes the checked files
-downloadable from the workflow run under the name
-`pretest-0.1.0-distributions`. The command block below is the local
-equivalent: it builds the wheel and source distribution, validates their
-metadata, installs the wheel, and exercises the installed command path used in
-the article:
+Before a public tag, run Python distribution checks from a clean repository
+copy. The GitHub Actions workflow `.github/workflows/python-release-gates.yml`
+builds the wheel and source distribution, validates metadata, and makes checked
+files downloadable as `pretest-0.1.0-distributions`. The local equivalent:
 
 ```bash
 python -m build
@@ -650,24 +509,10 @@ python -m pretest --version
 python -m pretest prop99-python-handoff-summary --records-csv PATH --format text
 ```
 
-The installed command path checks the version, import/API behavior, and the
-records-to-snapshot workflow displayed in the manuscript using explicit
-regenerated records. The public wheel command surface uses regenerated or
-caller-supplied records for the Prop99 handoff and keeps fixed-reference files
-out of package data; use `prop99-replay-summary` only as a local reference
-command when those fixed-reference files are present and
+The public wheel command surface uses regenerated or caller-supplied records for
+the Prop99 handoff. Use `prop99-replay-summary` only as a local reference
+command when fixed-reference files are present and
 `PRETEST_ENABLE_SOURCE_TREE_HELPERS=1` is set.
-
-The package and article materials are ready for public submission only when the
-versioned `pretest` source is available at the declared repository URL under
-a versioned tag or GitHub release, the checked distribution resolves from PyPI
-or an equivalent public install channel, the source and reproduction files have
-a persistent archive record such as Zenodo, and the Proposition 99
-observation-level records and derived local reference files are either cleared
-for redistribution or regenerated from CRAN `tidysynth` for the public handoff.
-The commands above do not themselves establish PyPI publication, complete
-Python/Stata Prop99 parity, a publishable Stata release, an archival DOI, or
-public data redistributability.
 
 ## Companion Stata Reference Outputs
 
@@ -754,9 +599,9 @@ interval.
 ## Stored Results
 
 The `e(...)` names below document the Stata companion and fixed-reference result
-surface. Python code should read the corresponding result snapshot fields through
-`reporting_summary()`, `conditional_interval()`, and `conventional_interval()`
-unless it is intentionally inspecting Stata-compatible reference outputs.
+surface. Python code should read `reporting_summary()`,
+`conditional_interval()`, and `conventional_interval()` unless intentionally
+inspecting Stata-compatible reference outputs.
 
 ### Scalars
 
@@ -790,17 +635,11 @@ unless it is intentionally inspecting Stata-compatible reference outputs.
 | `e(V)`     | Compatibility-only variance matrix for the ATT-labeled `delta_bar` alias |
 
 All ATT-labeled compatibility surfaces carry δ̄, not τ̄.
-For overall replay comparisons, current public reference checks use scalar stored
-results. `e(Sigma)` remains a diagnostic field rather than an authoritative
-overall parity target. In overall mode, `e(theta)` and `e(S_pre_se)` stay
-diagnostic-only because current Stata auxiliaries still follow the iterative
-path; authoritative overall replay targets stay on the primary scalar bridge
-until repaired/Python auxiliaries can expose
-`theta^Delta / Sigma^Delta / S_pre_se^Delta` semantics.
+In overall mode, `e(theta)` and `e(S_pre_se)` stay diagnostic-only because
+current Stata auxiliaries follow the iterative path; authoritative overall replay
+targets stay on the primary scalar bridge.
 
 ## Mode Selection: Iterative vs. Overall
-
-The package offers two assumptions about parallel trend violations, which have different sensitivities:
 
 | Feature               | Iterative Mode (Default)                                        | Overall Mode (`overall`)                               |
 | :-------------------- | :-------------------------------------------------------------- | :------------------------------------------------------- |
@@ -812,20 +651,16 @@ The package offers two assumptions about parallel trend violations, which have d
 
 In iterative mode, the conditional CI is centered at δ̄ and adjusted by κ · Ŝ_pre.
 In overall mode, the Appendix C half-width stays κ-free: δ̄ ± {Ŝ_pre^Δ + f^Δ(α, Σ̂^Δ) / √n}.
-In overall mode, the same Appendix C decision boundary stays explicit: Ŝ_pre^Δ <= M implies φ^Δ = 0, so the public stored-results surface keeps e(phi)=0 and e(pretest_pass)=1 on that shared pass boundary.
 
 **Reporting guidance:**
 
 1. Choose the mode before reading the conditional interval and report it with
    `S_pre`, `threshold`, `decision`, `f_alpha`, `simulations`, and `seed`.
-2. Use iterative mode when the analysis bounds period-to-period violations. Use
-   overall mode when the analysis bounds cumulative divergence from the
-   treatment-time baseline.
-3. If the two modes disagree, treat the result as a diagnostic contrast rather
-   than proof of a particular trend shape. Inspect the underlying
-   pre-treatment path, state which violation coordinate the threshold *M* is
-   meant to bound, and report a conditional interval only for the selected
-   mode.
+2. Use iterative mode when bounding period-to-period violations; overall mode
+   when bounding cumulative divergence from the treatment-time baseline.
+3. If the two modes disagree, treat the result as a diagnostic contrast. Inspect
+   the pre-treatment path, state which violation coordinate the threshold *M*
+   bounds, and report a conditional interval only for the selected mode.
 
 ## Stata Companion Example
 
@@ -846,11 +681,7 @@ gen y = rnormal() + treat*(time >= 6)*0.5
 
 ## Not Implemented In 0.1.0
 
-Version 0.1.0 has a deliberately narrow documented public interface: supported
-block-adoption DID inputs, supplied or record-derived kernel quantities,
-conditional extrapolation pre-test decisions, conditional/conventional interval
-fields, and the documented Prop99 regenerated-record handoff. The items below
-are outside that interface and have no committed API or release timeline:
+The items below are outside version 0.1.0's documented public interface:
 
 - Triple difference-in-differences designs with an additional grouping dimension
 - Staggered treatment adoption designs
@@ -888,9 +719,7 @@ AGPL-3.0. See [LICENSE](LICENSE) for details.
 If you use this Python package in your research, please cite the package and the
 methodology paper. Until version 0.1.0 has a public DOI, tagged release URL, or
 package page, cite the software version and note that the source and
-reproduction files are pending a persistent public identifier. Replace that
-availability note once the archive deposit, versioned release, or public package
-page exists.
+reproduction files are pending a persistent public identifier.
 
 **APA Format:**
 
@@ -922,9 +751,3 @@ page exists.
 }
 ```
 
-## Recommended Resources
-
-For beginners in causal inference and econometrics:
-
-- [Causal Inference for the Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html) - An excellent introductory tutorial on causal inference by Matheus Facure
-- [Causal Inference for the Brave and True (Chinese Edition)](https://ci-book.huangwz.com/intro) - Chinese translation by Wenzhe Huang and Wenli Xu
