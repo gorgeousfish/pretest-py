@@ -1,0 +1,38 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+producer: stata
+capture_kind: graph-data
+capture_status: captured-awaiting-graph-export
+required_fields:
+- pre_treatment_series
+- post_treatment_series
+- threshold_line_m
+- pass_fail_style
+- graph_note
+source_refs:
+- _bmad-output/test-artifacts/parity/prop99_overall_capture_packet_template.yaml
+- _bmad-output/reviews/prop99-example-log-drift.md
+- pretest-stata/examples/Graph1.jpg
+- pretest-stata/examples/Graph2.jpg
+- pretest-stata/examples/Graph3.jpg
+- pretest-stata/examples/Graph4.jpg
+- _bmad-output/test-artifacts/parity/run_prop99_overall_capture.log
+- _bmad-output/test-artifacts/parity/pretest_graph_error_198_verifier_note.md
+- pretest-stata/ado/_pretest_graph.ado
+numeric_payload:
+  pre_treatment_series:
+  - -0.57895379
+  - 0.22894367999999998
+  - -3.40789892
+  post_treatment_series:
+  - 0.0
+  - -0.60263001
+  - -8.3789512
+  - -8.6315802
+  - -12.031578
+  - -16.255266
+  - -19.494736
+  threshold_line_m: 5.0
+  pass_fail_style: pass
+  graph_note: graph exported in overall mode
+graph_status: graph-exported

@@ -1,0 +1,27 @@
+version: 1
+case_id: PROP99-FULL-M1-ITER
+producer: stata
+capture_kind: stdout
+capture_status: ready-for-log-extraction
+planned_fields:
+- N
+- T
+- T_pre
+- T_post
+- pretest_result
+- severity
+- kappa
+- critical_value
+- delta_bar
+- ci_conv_lower
+- ci_conv_upper
+- ci_lower
+- ci_upper
+source_refs:
+- pretest-stata/examples/example_prop99.log
+- pretest-stata/examples/example_prop99.do
+numeric_payload: null
+mode: iterative
+sample_window:
+- 1970
+- 2000

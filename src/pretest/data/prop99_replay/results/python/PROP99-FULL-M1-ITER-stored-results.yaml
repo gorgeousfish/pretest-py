@@ -1,0 +1,41 @@
+version: 1
+case_id: PROP99-FULL-M1-ITER
+producer: python
+capture_kind: stored-results
+capture_status: blocked-pending-python-implementation
+planned_fields:
+- e(N)
+- e(T)
+- e(T_pre)
+- e(T_post)
+- e(t0)
+- e(n)
+- e(is_panel)
+- e(p)
+- e(alpha)
+- e(level)
+- e(M)
+- e(threshold)
+- e(se_delta_bar)
+- e(sims)
+- e(seed)
+- e(phi)
+- e(pretest_pass)
+- e(data_valid)
+- e(mode)
+- e(S_pre)
+- e(kappa)
+- e(f_alpha)
+- e(delta_bar)
+- e(ci_conv_lower)
+- e(ci_conv_upper)
+- e(ci_lower)
+- e(ci_upper)
+source_refs:
+- _bmad-output/test-artifacts/parity/prop99_replay_summary_template.yaml
+- _bmad-output/test-artifacts/parity/pretest_stored_results_contract.yaml
+numeric_payload: null
+mode: iterative
+sample_window:
+- 1970
+- 2000

@@ -1,0 +1,98 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+producer: stata
+capture_kind: capture-metadata
+capture_status: captured-precapture-verified
+capture_metadata_contract_ref: prop99_overall_precapture_contract.yaml#capture_metadata_contract
+required_metadata:
+- precapture_contract is required before capture_ready may flip to true
+- exact structural invariants from prop99_overall_precapture_contract.yaml must be
+  verified before capture_ready may flip to true
+- observed_years must be present before capture_ready may flip to true
+- treat_time must be present before capture_ready may flip to true
+- observed_years and treat_time must be present in metadata_payload and match prop99_overall_precapture_contract.yaml
+  before capture_ready may flip to true
+- fresh Stata rerun or committed raw e() snapshot is required before capture_ready
+  may flip to true
+- graph data must be exported as machine-readable YAML before parity closeout
+- protected results remain excluded from authoritative comparison
+required_metadata_fields:
+- capture_ready
+- observed_years
+- treat_time
+- exact_counts_verified
+- raw_e_snapshot_present
+- graph_status
+- numeric_fields_promoted
+- protected_results_excluded
+blocked_defaults:
+  capture_ready: false
+  raw_e_snapshot_present: false
+  numeric_fields_promoted: []
+  protected_results_excluded: true
+source_refs:
+- _bmad-output/test-artifacts/parity/prop99_overall_capture_packet_template.yaml
+- _bmad-output/test-artifacts/parity/prop99_overall_precapture_contract.yaml
+- pretest-stata/examples/example_prop99.do
+- _bmad-output/reviews/prop99-example-log-drift.md
+- _bmad-output/test-artifacts/parity/run_prop99_overall_capture.log
+metadata_payload:
+  capture_ready: true
+  observed_years:
+  - 1985
+  - 1986
+  - 1987
+  - 1988
+  - 1989
+  - 1990
+  - 1991
+  - 1992
+  - 1993
+  - 1994
+  - 1995
+  treat_time: 1989
+  exact_counts_verified: true
+  raw_e_snapshot_present: true
+  graph_status: graph-exported
+  numeric_fields_promoted:
+  - N
+  - T
+  - T_pre
+  - T_post
+  - pretest_result
+  - severity
+  - kappa
+  - critical_value
+  - delta_bar
+  - ci_conv_lower
+  - ci_conv_upper
+  - ci_lower
+  - ci_upper
+  - e(N)
+  - e(T)
+  - e(T_pre)
+  - e(T_post)
+  - e(t0)
+  - e(n)
+  - e(is_panel)
+  - e(p)
+  - e(alpha)
+  - e(level)
+  - e(M)
+  - e(threshold)
+  - e(sims)
+  - e(seed)
+  - e(se_delta_bar)
+  - e(phi)
+  - e(pretest_pass)
+  - e(data_valid)
+  - e(mode)
+  - e(S_pre)
+  - e(kappa)
+  - e(f_alpha)
+  - e(delta_bar)
+  - e(ci_conv_lower)
+  - e(ci_conv_upper)
+  - e(ci_lower)
+  - e(ci_upper)
+  protected_results_excluded: true

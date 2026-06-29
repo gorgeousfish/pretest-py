@@ -1,0 +1,40 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+producer: python
+capture_kind: stdout
+capture_status: computed-record-backed
+planned_fields:
+- N
+- T
+- T_pre
+- T_post
+- pretest_result
+- severity
+- kappa
+- critical_value
+- delta_bar
+- ci_conv_lower
+- ci_conv_upper
+- ci_lower
+- ci_upper
+source_refs:
+- pretest.build_prop99_window_overall_deterministic_split_capture_evidence
+- pretest.compute_pretest_snapshot
+numeric_payload:
+  N: 429
+  T: 11
+  T_pre: 4
+  T_post: 7
+  pretest_result: PASS
+  severity: 2.0001148279560863
+  kappa: 1
+  critical_value: 277.2675945131251
+  delta_bar: -9.342105951524319
+  ci_conv_lower: -16.145787285582635
+  ci_conv_upper: -2.538424617466003
+  ci_lower: -24.728826387830402
+  ci_upper: 6.044614484781764
+mode: overall
+sample_window:
+- 1985
+- 1995

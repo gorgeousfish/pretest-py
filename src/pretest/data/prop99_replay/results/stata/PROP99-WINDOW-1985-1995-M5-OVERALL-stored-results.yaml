@@ -1,0 +1,198 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+producer: stata
+capture_kind: stored-results
+capture_status: captured-precapture-verified
+planned_fields:
+- e(N)
+- e(T)
+- e(T_pre)
+- e(T_post)
+- e(t0)
+- e(n)
+- e(is_panel)
+- e(p)
+- e(alpha)
+- e(level)
+- e(M)
+- e(threshold)
+- e(se_delta_bar)
+- e(sims)
+- e(seed)
+- e(phi)
+- e(pretest_pass)
+- e(data_valid)
+- e(mode)
+- e(S_pre)
+- e(kappa)
+- e(f_alpha)
+- e(delta_bar)
+- e(ci_conv_lower)
+- e(ci_conv_upper)
+- e(ci_lower)
+- e(ci_upper)
+source_refs:
+- pretest-stata/examples/example_prop99.do
+- _bmad-output/test-artifacts/parity/prop99_overall_capture_packet_template.yaml
+- _bmad-output/reviews/prop99-example-log-drift.md
+- _bmad-output/test-artifacts/parity/run_prop99_overall_capture.log
+numeric_payload:
+  e(N): 429
+  e(T): 11
+  e(T_pre): 4
+  e(T_post): 7
+  e(t0): 5
+  e(n): 429
+  e(is_panel): 0
+  e(p): 2
+  e(alpha): 0.05
+  e(level): 95
+  e(M): 5
+  e(threshold): 5
+  e(se_delta_bar): 3.47132977326364
+  e(sims): 5000
+  e(seed): 12345
+  e(phi): 0
+  e(pretest_pass): 1
+  e(data_valid): 1
+  e(mode): overall
+  e(S_pre): 2.000114827956086
+  e(kappa): 1.0
+  e(f_alpha): 279.983332516005
+  e(delta_bar): -9.342105951524319
+  e(ci_lower): -24.8599434541576
+  e(ci_upper): 6.17573155110894
+  e(ci_conv_lower): -16.14578728558264
+  e(ci_conv_upper): -2.538424617465994
+  e(theta):
+  - -0.57895379
+  - 0.80789747
+  - -3.6368426
+  - 0.0
+  - -0.60263001
+  - -8.3789512
+  - -8.6315802
+  - -12.031578
+  - -16.255266
+  - -19.494736
+  e(S_pre_se): 72.17701043092792
+  e(nu):
+  - -0.57895379
+  - 0.80789747
+  - -3.6368426
+  e(delta):
+  - 0.0
+  - -0.60263001
+  - -8.3789512
+  - -8.6315802
+  - -12.031578
+  - -16.255266
+  - -19.494736
+  e(Sigma):
+  - - 12176.621
+    - -6097.6172
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - -6097.6172
+    - 12190.18
+    - -6092.5625
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - -6092.5625
+    - 12747.619
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0e-10
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 12232.927
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 6141.6805
+    - 11076.836
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 6141.6805
+    - 6141.6805
+    - 11221.175
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 11083.408
+    - 6141.6805
+    - 6141.6805
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 11138.373
+    - 6141.6805
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 6141.6805
+    - 12302.659
+mode: overall
+sample_window:
+- 1985
+- 1995
+protected_results:
+- e(theta)
+- e(S_pre_se)

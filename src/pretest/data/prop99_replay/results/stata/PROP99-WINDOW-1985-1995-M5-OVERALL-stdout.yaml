@@ -1,0 +1,41 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+producer: stata
+capture_kind: stdout
+capture_status: captured-precapture-verified
+planned_fields:
+- N
+- T
+- T_pre
+- T_post
+- pretest_result
+- severity
+- kappa
+- critical_value
+- delta_bar
+- ci_conv_lower
+- ci_conv_upper
+- ci_lower
+- ci_upper
+source_refs:
+- pretest-stata/examples/example_prop99.do
+- _bmad-output/reviews/prop99-example-log-drift.md
+- _bmad-output/test-artifacts/parity/run_prop99_overall_capture.log
+numeric_payload:
+  N: 429
+  T: 11
+  T_pre: 4
+  T_post: 7
+  pretest_result: PASS
+  severity: 2.000114827956086
+  kappa: 1.0
+  critical_value: 279.983332516005
+  delta_bar: -9.342105951524319
+  ci_lower: -24.8599434541576
+  ci_upper: 6.17573155110894
+  ci_conv_lower: -16.14578728558264
+  ci_conv_upper: -2.538424617465994
+mode: overall
+sample_window:
+- 1985
+- 1995

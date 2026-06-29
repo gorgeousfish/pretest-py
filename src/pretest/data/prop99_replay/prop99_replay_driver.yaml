@@ -1,0 +1,251 @@
+version: 1
+generated_at: '2026-05-17T19:06:05+08:00'
+registry_ref: prop99_replay_fixture_registry.yaml
+stored_results_contract_ref: pretest_stored_results_contract.yaml#prop99_observed_output_profile
+summary_template_ref: prop99_replay_summary_template.yaml
+generated_by: python3 _bmad-output/test-artifacts/parity/generate_prop99_replay_driver.py
+cases:
+- case_id: PROP99-FULL-M5-ITER
+  log_observed: true
+  mode: iterative
+  sample_window:
+  - 1970
+  - 2000
+  stdout_categories:
+    exact:
+    - N
+    - T
+    - T_pre
+    - T_post
+    - pretest_result
+    display_rounded:
+    - severity
+    - kappa
+    - critical_value
+    - delta_bar
+    - ci_lower
+    - ci_upper
+    - ci_conv_lower
+    - ci_conv_upper
+    exact_absence: []
+    unresolved: []
+  stored_results_categories:
+    exact:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(se_delta_bar)
+    - e(sims)
+    - e(seed)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    display_rounded:
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_lower)
+    - e(ci_upper)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    exact_absence: []
+    unresolved: []
+  graph_status: graph-attempted-but-error-198
+  blocking_gaps: []
+- case_id: PROP99-FULL-M1-ITER
+  log_observed: true
+  mode: iterative
+  sample_window:
+  - 1970
+  - 2000
+  stdout_categories:
+    exact:
+    - N
+    - T
+    - T_pre
+    - T_post
+    - pretest_result
+    display_rounded:
+    - severity
+    - kappa
+    - critical_value
+    - delta_bar
+    - ci_conv_lower
+    - ci_conv_upper
+    exact_absence:
+    - ci_lower
+    - ci_upper
+    unresolved: []
+  stored_results_categories:
+    exact:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(se_delta_bar)
+    - e(sims)
+    - e(seed)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    display_rounded:
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    exact_absence:
+    - e(ci_lower)
+    - e(ci_upper)
+    unresolved: []
+  graph_status: suppressed-by-nograph
+  blocking_gaps: []
+- case_id: PROP99-WINDOW-1985-1995-M5-ITER
+  log_observed: true
+  mode: iterative
+  sample_window:
+  - 1985
+  - 1995
+  stdout_categories:
+    exact:
+    - N
+    - T
+    - T_pre
+    - T_post
+    - pretest_result
+    display_rounded:
+    - severity
+    - kappa
+    - critical_value
+    - delta_bar
+    - ci_lower
+    - ci_upper
+    - ci_conv_lower
+    - ci_conv_upper
+    exact_absence: []
+    unresolved: []
+  stored_results_categories:
+    exact:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(se_delta_bar)
+    - e(sims)
+    - e(seed)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    display_rounded:
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_lower)
+    - e(ci_upper)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    exact_absence: []
+    unresolved: []
+  graph_status: graph-attempted-but-error-198
+  blocking_gaps: []
+- case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+  log_observed: true
+  mode: overall
+  sample_window:
+  - 1985
+  - 1995
+  stdout_categories:
+    exact:
+    - N
+    - T
+    - T_pre
+    - T_post
+    - pretest_result
+    display_rounded:
+    - severity
+    - kappa
+    - critical_value
+    - delta_bar
+    - ci_conv_lower
+    - ci_conv_upper
+    - ci_lower
+    - ci_upper
+    exact_absence: []
+    unresolved: []
+  stored_results_categories:
+    exact:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(se_delta_bar)
+    - e(sims)
+    - e(seed)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    display_rounded:
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    - e(ci_lower)
+    - e(ci_upper)
+    exact_absence: []
+    unresolved: []
+  graph_status: graph-exported
+  python_parity_status: deterministic-estimator-verified-rng-mismatch
+  blocking_gaps: []
+  oracle_capture:
+    packet_template_ref: prop99_overall_capture_packet_template.yaml
+    verifier_input_ref: prop99_overall_capture_verifier_input.yaml
+    precapture_contract_ref: prop99_overall_precapture_contract.yaml
+    capture_metadata_contract_ref: prop99_overall_precapture_contract.yaml#capture_metadata_contract
+    graph_data_capture_path: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-graph-data.yaml
+    capture_metadata_path: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-capture-metadata.yaml
+    protected_results:
+    - e(theta)
+    - e(S_pre_se)
+    capture_ready: true

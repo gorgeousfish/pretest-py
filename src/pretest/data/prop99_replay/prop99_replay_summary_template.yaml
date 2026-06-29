@@ -1,0 +1,369 @@
+version: 1
+generated_at: '2026-05-17T19:06:05+08:00'
+driver_ref: prop99_replay_driver.yaml
+generated_by: python3 _bmad-output/test-artifacts/parity/generate_prop99_replay_driver.py
+verdict_buckets:
+- exact
+- display_rounded
+- exact_absence
+- unresolved
+cases:
+- case_id: PROP99-FULL-M5-ITER
+  verdict: pending
+  mode: iterative
+  sample_window:
+  - 1970
+  - 2000
+  capture_paths:
+    stata_stdout: results/stata/PROP99-FULL-M5-ITER-stdout.yaml
+    python_stdout: results/python/PROP99-FULL-M5-ITER-stdout.yaml
+    stata_stored_results: results/stata/PROP99-FULL-M5-ITER-stored-results.yaml
+    python_stored_results: results/python/PROP99-FULL-M5-ITER-stored-results.yaml
+  stdout_summary:
+    exact:
+      planned_fields:
+      - N
+      - T
+      - T_pre
+      - T_post
+      - pretest_result
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - severity
+      - kappa
+      - critical_value
+      - delta_bar
+      - ci_lower
+      - ci_upper
+      - ci_conv_lower
+      - ci_conv_upper
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  stored_results_summary:
+    exact:
+      planned_fields:
+      - e(N)
+      - e(T)
+      - e(T_pre)
+      - e(T_post)
+      - e(t0)
+      - e(n)
+      - e(is_panel)
+      - e(p)
+      - e(alpha)
+      - e(level)
+      - e(M)
+      - e(threshold)
+      - e(se_delta_bar)
+      - e(sims)
+      - e(seed)
+      - e(phi)
+      - e(pretest_pass)
+      - e(data_valid)
+      - e(mode)
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - e(S_pre)
+      - e(kappa)
+      - e(f_alpha)
+      - e(delta_bar)
+      - e(ci_lower)
+      - e(ci_upper)
+      - e(ci_conv_lower)
+      - e(ci_conv_upper)
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  blockers: []
+  stdout_anchor_contract_ref: prop99_iterative_stdout_anchor_contract.yaml
+- case_id: PROP99-FULL-M1-ITER
+  verdict: pending
+  mode: iterative
+  sample_window:
+  - 1970
+  - 2000
+  capture_paths:
+    stata_stdout: results/stata/PROP99-FULL-M1-ITER-stdout.yaml
+    python_stdout: results/python/PROP99-FULL-M1-ITER-stdout.yaml
+    stata_stored_results: results/stata/PROP99-FULL-M1-ITER-stored-results.yaml
+    python_stored_results: results/python/PROP99-FULL-M1-ITER-stored-results.yaml
+  stdout_summary:
+    exact:
+      planned_fields:
+      - N
+      - T
+      - T_pre
+      - T_post
+      - pretest_result
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - severity
+      - kappa
+      - critical_value
+      - delta_bar
+      - ci_conv_lower
+      - ci_conv_upper
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields:
+      - ci_lower
+      - ci_upper
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  stored_results_summary:
+    exact:
+      planned_fields:
+      - e(N)
+      - e(T)
+      - e(T_pre)
+      - e(T_post)
+      - e(t0)
+      - e(n)
+      - e(is_panel)
+      - e(p)
+      - e(alpha)
+      - e(level)
+      - e(M)
+      - e(threshold)
+      - e(se_delta_bar)
+      - e(sims)
+      - e(seed)
+      - e(phi)
+      - e(pretest_pass)
+      - e(data_valid)
+      - e(mode)
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - e(S_pre)
+      - e(kappa)
+      - e(f_alpha)
+      - e(delta_bar)
+      - e(ci_conv_lower)
+      - e(ci_conv_upper)
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields:
+      - e(ci_lower)
+      - e(ci_upper)
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  blockers: []
+  stdout_anchor_contract_ref: prop99_iterative_stdout_anchor_contract.yaml
+- case_id: PROP99-WINDOW-1985-1995-M5-ITER
+  verdict: pending
+  mode: iterative
+  sample_window:
+  - 1985
+  - 1995
+  capture_paths:
+    stata_stdout: results/stata/PROP99-WINDOW-1985-1995-M5-ITER-stdout.yaml
+    python_stdout: results/python/PROP99-WINDOW-1985-1995-M5-ITER-stdout.yaml
+    stata_stored_results: results/stata/PROP99-WINDOW-1985-1995-M5-ITER-stored-results.yaml
+    python_stored_results: results/python/PROP99-WINDOW-1985-1995-M5-ITER-stored-results.yaml
+  stdout_summary:
+    exact:
+      planned_fields:
+      - N
+      - T
+      - T_pre
+      - T_post
+      - pretest_result
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - severity
+      - kappa
+      - critical_value
+      - delta_bar
+      - ci_lower
+      - ci_upper
+      - ci_conv_lower
+      - ci_conv_upper
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  stored_results_summary:
+    exact:
+      planned_fields:
+      - e(N)
+      - e(T)
+      - e(T_pre)
+      - e(T_post)
+      - e(t0)
+      - e(n)
+      - e(is_panel)
+      - e(p)
+      - e(alpha)
+      - e(level)
+      - e(M)
+      - e(threshold)
+      - e(se_delta_bar)
+      - e(sims)
+      - e(seed)
+      - e(phi)
+      - e(pretest_pass)
+      - e(data_valid)
+      - e(mode)
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - e(S_pre)
+      - e(kappa)
+      - e(f_alpha)
+      - e(delta_bar)
+      - e(ci_lower)
+      - e(ci_upper)
+      - e(ci_conv_lower)
+      - e(ci_conv_upper)
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  blockers: []
+  stdout_anchor_contract_ref: prop99_iterative_stdout_anchor_contract.yaml
+- case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+  verdict: pending
+  python_parity_status: deterministic-estimator-verified-rng-mismatch
+  mode: overall
+  sample_window:
+  - 1985
+  - 1995
+  capture_paths:
+    stata_stdout: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stdout.yaml
+    python_stdout: results/python/PROP99-WINDOW-1985-1995-M5-OVERALL-stdout.yaml
+    stata_stored_results: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stored-results.yaml
+    python_stored_results: results/python/PROP99-WINDOW-1985-1995-M5-OVERALL-stored-results.yaml
+  stdout_summary:
+    exact:
+      planned_fields:
+      - N
+      - T
+      - T_pre
+      - T_post
+      - pretest_result
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - severity
+      - kappa
+      - critical_value
+      - delta_bar
+      - ci_conv_lower
+      - ci_conv_upper
+      - ci_lower
+      - ci_upper
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  stored_results_summary:
+    exact:
+      planned_fields:
+      - e(N)
+      - e(T)
+      - e(T_pre)
+      - e(T_post)
+      - e(t0)
+      - e(n)
+      - e(is_panel)
+      - e(p)
+      - e(alpha)
+      - e(level)
+      - e(M)
+      - e(threshold)
+      - e(se_delta_bar)
+      - e(sims)
+      - e(seed)
+      - e(phi)
+      - e(pretest_pass)
+      - e(data_valid)
+      - e(mode)
+      matched_fields: []
+      mismatched_fields: []
+    display_rounded:
+      planned_fields:
+      - e(S_pre)
+      - e(kappa)
+      - e(f_alpha)
+      - e(delta_bar)
+      - e(ci_conv_lower)
+      - e(ci_conv_upper)
+      - e(ci_lower)
+      - e(ci_upper)
+      matched_fields: []
+      mismatched_fields: []
+    exact_absence:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+    unresolved:
+      planned_fields: []
+      matched_fields: []
+      mismatched_fields: []
+  blockers: []
+  oracle_capture:
+    packet_template_ref: prop99_overall_capture_packet_template.yaml
+    verifier_input_ref: prop99_overall_capture_verifier_input.yaml
+    precapture_contract_ref: prop99_overall_precapture_contract.yaml
+    capture_metadata_contract_ref: prop99_overall_precapture_contract.yaml#capture_metadata_contract
+    graph_data_capture_path: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-graph-data.yaml
+    capture_metadata_path: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-capture-metadata.yaml
+    protected_results:
+    - e(theta)
+    - e(S_pre_se)
+    capture_ready: true

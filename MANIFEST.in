@@ -1,0 +1,15 @@
+include CHANGELOG.md
+include image/README/*.png
+recursive-include tests/fixtures *.yaml
+
+prune .tmp
+prune build
+prune dist
+prune dist-release-gate
+prune .release-smoke-venv
+prune .pytest_cache
+prune .ruff_cache
+prune src/pretest_py.egg-info
+recursive-exclude src/pretest_py.egg-info *
+global-exclude *.py[cod]
+global-exclude .DS_Store

@@ -1,0 +1,90 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+registry_ref: prop99_replay_fixture_registry.yaml
+mode_contract_ref: pretest_paper_first_mode_contract.yaml#qa_handoff.replay_policy.overall_mode
+verifier_input_ref: _bmad-output/test-artifacts/parity/prop99_overall_capture_verifier_input.yaml
+precapture_contract_ref: prop99_overall_precapture_contract.yaml
+capture_metadata_contract_ref: prop99_overall_precapture_contract.yaml#capture_metadata_contract
+mode: overall
+sample_window:
+- 1985
+- 1995
+capture_paths:
+  stata_stdout: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stdout.yaml
+  stata_stored_results: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stored-results.yaml
+  stata_graph_data: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-graph-data.yaml
+  capture_metadata: results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-capture-metadata.yaml
+excluded_non_authoritative_results:
+- e(theta)
+- e(S_pre_se)
+authoritative_stdout_fields:
+- N
+- T
+- T_pre
+- T_post
+- pretest_result
+- severity
+- kappa
+- critical_value
+- delta_bar
+- ci_conv_lower
+- ci_conv_upper
+- ci_lower
+- ci_upper
+authoritative_stored_results:
+- e(N)
+- e(T)
+- e(T_pre)
+- e(T_post)
+- e(t0)
+- e(n)
+- e(is_panel)
+- e(p)
+- e(alpha)
+- e(level)
+- e(M)
+- e(threshold)
+- e(se_delta_bar)
+- e(sims)
+- e(seed)
+- e(phi)
+- e(pretest_pass)
+- e(data_valid)
+- e(mode)
+- e(S_pre)
+- e(kappa)
+- e(f_alpha)
+- e(delta_bar)
+- e(ci_conv_lower)
+- e(ci_conv_upper)
+- e(ci_lower)
+- e(ci_upper)
+capture_metadata_required_fields:
+- capture_ready
+- observed_years
+- treat_time
+- exact_counts_verified
+- raw_e_snapshot_present
+- graph_status
+- numeric_fields_promoted
+- protected_results_excluded
+capture_metadata_blocked_defaults:
+  capture_ready: false
+  raw_e_snapshot_present: false
+  numeric_fields_promoted: []
+  protected_results_excluded: true
+capture_metadata_requirements:
+- precapture_contract is required before capture_ready may flip to true
+- exact structural invariants from prop99_overall_precapture_contract.yaml must be
+  verified before capture_ready may flip to true
+- observed_years must be present before capture_ready may flip to true
+- treat_time must be present before capture_ready may flip to true
+- observed_years and treat_time must be present in metadata_payload and match prop99_overall_precapture_contract.yaml
+  before capture_ready may flip to true
+- fresh Stata rerun or committed raw e() snapshot is required before capture_ready
+  may flip to true
+- graph data must be exported as machine-readable YAML before parity closeout
+- protected results remain excluded from authoritative comparison
+activation_rule: The packet is capture-ready once the committed quartet matches the
+  fresh overall rerun, graph_status is machine-checkable, and protected auxiliaries
+  remain excluded from authoritative parity.

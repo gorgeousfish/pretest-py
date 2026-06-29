@@ -1,0 +1,113 @@
+version: 1
+artifact_id: "pretest-overall-auxiliary-contract-v1"
+frontier_id: "OF-008"
+status: "protected-auxiliary-helper-ready"
+purpose: "Freeze the paper-first meaning of overall-mode auxiliary outputs so QA can exclude current Stata e(theta)/e(S_pre_se) from oracle promotion while still knowing how repaired or Python auxiliaries should be derived."
+overall_mode_bridge_contract_ref: "_bmad-output/test-artifacts/parity/pretest_overall_mode_bridge_contract.yaml"
+authority_order:
+  - "paper-and-mathematical-principles"
+  - "independent-derivation"
+  - "pretest-paper-first-mode-contract"
+  - "pretest-stored-results-contract"
+  - "stata-reference-implementation"
+source_refs:
+  - "paper/pretest_paper.md#appendix-c"
+  - "paper/pretest_paper_cn.md"
+  - "Docs/stata包bug列表.md"
+  - "_bmad-output/test-artifacts/parity/pretest_paper_first_mode_contract.yaml"
+  - "_bmad-output/test-artifacts/parity/pretest_overall_mode_bridge_contract.yaml"
+  - "_bmad-output/test-artifacts/parity/pretest_stored_results_contract.yaml"
+  - "pretest_overall_auxiliary_diagnostic_verifier_input.yaml"
+  - "pretest-stata/mata/_pretest_main.mata"
+  - "pretest-stata/pretest.sthlp"
+bug_ref: "STATA-OVERALL-AUX-001"
+target:
+  phenomenon: "Overall-mode auxiliary outputs still expose iterative objects even though Appendix C switches to cumulative overall violations."
+  claim: "Current Stata e(theta) and e(S_pre_se) are diagnostic-only in overall mode and must stay outside authoritative parity."
+  goal: "identity-and-diagnostic-boundary"
+invariant_object:
+  parameter_vector: "theta^Delta = (nu_bar_2,...,nu_bar_{t0-1}, delta_{t0},...,delta_T)"
+  covariance_object: "Sigma^Delta"
+  severity_object: "S_pre^Delta"
+  cumulative_operator: "Let A be the lower-triangular ones matrix, so nu_bar = A * nu and Sigma_nu^Delta = A * Sigma_nu * A'."
+assumptions_and_notation:
+  iterative_inputs:
+    - "e(nu) stores nu = (nu_2,...,nu_{t0-1})."
+    - "e(delta) stores delta = (delta_{t0},...,delta_T)."
+    - "e(Sigma) stores Sigma for theta = (nu, delta)."
+  overall_semantics:
+    - "Appendix C replaces nu by nu_bar in the pre-period block but keeps the delta block unchanged."
+    - "Overall mode keeps kappa = 1 and removes the kappa multiplier from the bias bound and conditional-CI half-width."
+    - "The cumulative bridge nu_bar = A * nu is the reason kappa = 1 is paper-first semantics rather than an implementation shortcut."
+current_stata_behavior:
+  e_theta:
+    stored_object: "theta = (nu_2,...,nu_{t0-1}, delta_{t0},...,delta_T)"
+    evidence:
+      - "pretest-stata/mata/_pretest_main.mata:441-446"
+      - "pretest-stata/pretest.sthlp:498"
+  e_S_pre_se:
+    stored_object: "Delta-method SE built from nu and Sigma_nu"
+    evidence:
+      - "pretest-stata/mata/_pretest_main.mata:463-473"
+      - "pretest-stata/pretest.sthlp:463"
+paper_first_repaired_semantics:
+  e_theta:
+    should_equal: "theta^Delta = (A * nu, delta)"
+  e_S_pre_se:
+    should_equal: "A delta-method SE for S_pre^Delta using nu_bar and Sigma_nu^Delta"
+cross_paper_appendix_c_authority:
+  paper_refs:
+    - "paper/pretest_paper.md"
+    - "paper/pretest_paper_cn.md"
+  bridge_markers:
+    - "nu_bar = A * nu"
+    - "theta^Delta / Sigma^Delta"
+  authority_markers:
+    - "phi^Delta = 0"
+    - "S_pre_hat^Delta <= M"
+    - "kappa-free"
+  rule: "Any repaired or diagnostic overall auxiliary path must stay anchored to Appendix C across both papers: nu_bar = A * nu and theta^Delta / Sigma^Delta define the object, phi^Delta = 0 / S_pre_hat^Delta <= M keeps the shared pass boundary explicit, and the overall conditional-CI half-width remains kappa-free."
+documentation_drift_handoff:
+  bug_id: "STATA-DOC-CI-OVERALL-001"
+  evidence_refs:
+    - "Docs/stata包bug列表.md"
+    - "pretest-stata/pretest.sthlp:581-583"
+    - "pretest-stata/pretest.sthlp:666-672"
+  rule: "Diagnostic and repaired overall auxiliary handling must keep the generic help prose `kappa * S_pre` outside the overall executable oracle, because overall mode has no kappa multiplier and the conditional-CI half-width stays kappa-free."
+authoritative_boundary:
+  authoritative_scalars_unchanged:
+    - "e(S_pre)"
+    - "e(kappa)=1"
+    - "e(f_alpha)"
+    - "e(phi)"
+    - "e(pretest_pass)"
+    - "e(delta_bar)"
+    - "e(ci_lower)"
+    - "e(ci_upper)"
+    - "e(ci_conv_lower)"
+    - "e(ci_conv_upper)"
+  never_authoritative_in_current_stata:
+    - "e(theta)"
+    - "e(S_pre_se)"
+diagnostic_reconstruction_if_capture_exists:
+  safe_inputs:
+    - "e(nu)"
+    - "e(delta)"
+    - "e(Sigma)"
+  reconstructable_objects:
+    - "theta^Delta via cumulative-sum operator A on the pre block plus raw e(delta)"
+    - "Sigma^Delta by transforming the pre-period block of e(Sigma)"
+  qa_rule:
+    - "Use reconstructed theta^Delta or repaired/Python S_pre_se^Delta only for diagnostics or repaired-implementation checks."
+    - "Do not promote current Stata e(theta) or e(S_pre_se) into exact, display_rounded, or exact_absence buckets."
+    - "Do not let README/help iterative-only wording demote overall e(kappa)=1 out of authoritative scalars; STATA-DOC-KAPPA-001 is documentation drift only."
+non_claims:
+  - "This contract does not create a fresh overall-mode numeric oracle."
+  - "This contract does not authorize promotion of any unresolved overall numeric field before fresh capture."
+qa_handoff:
+  diagnostic_verifier_input_ref: "pretest_overall_auxiliary_diagnostic_verifier_input.yaml"
+  verifier_requirements:
+    - "Keep e(theta) and e(S_pre_se) outside authoritative parity in overall mode."
+    - "If raw e(nu), e(delta), and e(Sigma) are captured, use them only to reconstruct diagnostic theta^Delta or Sigma^Delta."
+    - "Any future repaired Stata or Python auxiliary exposure must be judged against theta^Delta / Sigma^Delta semantics, not against the current Stata auxiliaries."
+    - "Preserve the overall-mode bridge contract so auxiliary handling stays aligned with the no-kappa bias/CI derivation."

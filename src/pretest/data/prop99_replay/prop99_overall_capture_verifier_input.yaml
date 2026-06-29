@@ -1,0 +1,364 @@
+version: 1
+artifact_id: prop99-overall-capture-verifier-input-v1
+frontier_id: OF-008
+case_id: PROP99-WINDOW-1985-1995-M5-OVERALL
+status: captured-precapture-verified
+purpose: Provide a paper-first QA handoff for the missing short-window overall-mode
+  capture without fabricating numeric outputs.
+authority_order:
+- paper-and-mathematical-principles
+- pretest-paper-first-mode-contract
+- pretest-stored-results-contract
+- stata-reference-implementation
+source_refs:
+- paper/pretest_paper.md#appendix-c
+- paper/pretest_paper_cn.md
+- _bmad-output/test-artifacts/parity/pretest_overall_mode_bridge_contract.yaml
+- _bmad-output/test-artifacts/parity/pretest_paper_first_mode_contract.yaml
+- _bmad-output/test-artifacts/parity/pretest_overall_auxiliary_contract.yaml
+- _bmad-output/test-artifacts/parity/pretest_overall_auxiliary_diagnostic_verifier_input.yaml
+- _bmad-output/test-artifacts/parity/pretest_stored_results_contract.yaml
+- Docs/stata包bug列表.md
+- prop99_overall_precapture_contract.yaml
+- _bmad-output/planning-artifacts/seed-03-severity-kernel-prereqs.yaml
+- _bmad-output/test-artifacts/parity/pretest_severity_kernel_verifier_input.yaml
+- prop99_overall_capture_packet_template.yaml
+- prop99_replay_summary_template.yaml
+- _bmad-output/reviews/prop99-example-log-drift.md
+precapture_contract_ref: prop99_overall_precapture_contract.yaml
+protected_auxiliary_contract_ref: pretest_overall_auxiliary_contract.yaml
+auxiliary_diagnostic_verifier_input_ref: pretest_overall_auxiliary_diagnostic_verifier_input.yaml
+invariant_object:
+  paper_anchor:
+  - Appendix C.1
+  - Appendix C.2
+  - Appendix C.3
+  parameter_vector: theta^Delta = (nu_bar_2,...,nu_bar_{t0-1}, delta_{t0},...,delta_T)
+  covariance_object: Sigma^Delta
+  severity_object: S_pre^Delta
+  bias_bound: '|tau_bar - delta_bar| <= S_pre^Delta'
+  indicator_rule: phi^Delta is the fail indicator 1{S_pre_hat^Delta > M}; pretest_pass
+    = 1 - phi^Delta
+  theory_note: Overall mode inherits the paper-first fail/pass semantics but swaps
+    in theta^Delta and Sigma^Delta; treat e(theta) and e(S_pre_se) as protected auxiliaries,
+    not authoritative parity targets.
+cross_paper_appendix_c_authority:
+  paper_refs:
+  - paper/pretest_paper.md
+  - paper/pretest_paper_cn.md
+  bridge_markers:
+  - nu_bar = A * nu
+  - theta^Delta / Sigma^Delta
+  authority_markers:
+  - phi^Delta = 0
+  - S_pre_hat^Delta <= M
+  - kappa-free
+  rule: Before any numeric promotion, keep Appendix C authority aligned across both
+    papers so overall conditional inference stays tied to phi^Delta = 0 / S_pre_hat^Delta
+    <= M and the overall conditional-CI half-width remains kappa-free.
+command_contract:
+  dataset: pretest-stata/prop99_smoking.dta
+  sample_window:
+  - 1985
+  - 1995
+  stata_steps:
+  - use pretest-stata/prop99_smoking.dta, clear
+  - keep if year >= 1985 & year <= 1995
+  - pretest cigsale, treatment(treated) time(year) treat_time(1989) threshold(5) overall
+capture_prerequisites:
+- Fresh Stata rerun or committed raw e() snapshot for Analysis 4 in pretest-stata/examples/example_prop99.do.
+- Verify the exact dataset/window counts and overall-mode structural invariants in
+  prop99_overall_precapture_contract.yaml before promoting any numeric field.
+- At the package helper boundary, capture_ready metadata is invalid unless a precapture_contract
+  is supplied and the metadata payload carries observed_years plus treat_time matching
+  prop99_overall_precapture_contract.yaml.
+- observed_years and treat_time must both be present before capture_ready may flip
+  to true at the package helper boundary.
+- metadata_payload must remain null while capture_status stays blocked-pending-overall-oracle;
+  once any partial capture facts exist, the status must move out of blocked state
+  before helper ingestion.
+- Machine-readable stdout capture at results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stdout.yaml.
+- Machine-readable stored-results capture at results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stored-results.yaml.
+- Graph-data export at results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-graph-data.yaml
+  or explicit graph-status metadata when error 198 persists.
+- Capture metadata at results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-capture-metadata.yaml.
+same_line_blocker_packet:
+  current_status: captured-precapture-verified
+  feature_bundle: OF-008 promoted verifier-contract sync public-tail backprop
+  owners:
+  - qa-parity
+  - story-worker
+  latest_controller_facing_tail:
+  - '2026-04-06T13:21:31+08:00'
+  - '2026-04-06T13:35:02+08:00'
+  - '2026-04-06T13:45:39+08:00'
+  - '2026-04-06T13:55:38+08:00'
+  - '2026-04-06T13:56:25+08:00'
+  - '2026-04-06T14:12:12+08:00'
+  - '2026-04-06T14:28:59+08:00'
+  latest_controller_closeout_ref: _bmad-output/run-reports/20260406-1422-controller.md
+  latest_controller_closeout_token: 20260406-1422-controller
+  latest_same_line_closeout_ref: _bmad-output/run-reports/20260406-1428-planning.md
+  latest_same_line_closeout_token: 20260406-1428-planning
+  target_artifacts:
+  - results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stdout.yaml
+  - results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-stored-results.yaml
+  - results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-graph-data.yaml
+  - results/stata/PROP99-WINDOW-1985-1995-M5-OVERALL-capture-metadata.yaml
+  blocker_evidence:
+    capture_log_path: _bmad-output/test-artifacts/parity/run_prop99_overall_capture.log
+    must_currently_report:
+    - 'Mode:                   Overall'
+    - e(pretest_pass) =  1
+    - e(data_valid) =  1
+    - e(delta_bar) =  -9.342105951524319
+    - e(ci_lower) =  -24.8599434541576
+    - e(ci_upper) =  6.17573155110894
+  acceptance_to_clear_blocker:
+  - committed quartet YAML reflects the fresh overall rerun and capture_metadata.metadata_payload
+    is non-null with raw_e_snapshot_present=true
+  - replay-summary CLI/API consume the committed quartet with live graph_status
+  - driver/template no longer keep the overall case unresolved or blocked
+  - worker-state, review-registry, and closeout verifiers remain green after promoted
+    verifier-contract sync
+  verifier_commands:
+  - PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_story_preparation_seed04_bundle.py
+  - PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_story_worker_seed_bundle.py
+  - PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_prop99_replay_generator_sync.py
+  - PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_qa_parity_prop99_scaffold.py
+  - python3 _bmad-output/automation/verify_worker_state_sync.py
+  - python3 _bmad-output/automation/verify_review_registry_sync.py
+  handoff:
+    why_not_done_now: The committed quartet is now on disk, but story-worker still
+      has to absorb that promoted truth through the broader seed-04 package-side
+      replay-harness wiring before downstream parity work can treat the overall oracle
+      as fully committed.
+    next_command: PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=pretest-py/src python3
+      -m pytest -q pretest-py/tests/test_package_metadata_contract.py pretest-py/tests/test_built_wheel_contract.py
+      pretest-py/tests/test_pytest_config_contract.py && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
+      PYTHONPATH=pretest-py/src python3 -m pytest -q pretest-py/tests/test_prop99_replay_harness.py pretest-py/tests/test_replay_summary_api.py
+      pretest-py/tests/test_cli_contract.py && PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_story_preparation_seed04_bundle.py
+      && PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_prop99_replay_generator_sync.py
+      && PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_qa_parity_prop99_scaffold.py
+      && PYTHONPATH=pretest-py/src python3 _bmad-output/test-artifacts/parity/verify_story_worker_seed_bundle.py
+    exit_criteria: replay-summary CLI/API consume the committed quartet with live
+      graph_status while the package closeout verifier trio, the capture-ready overall
+      bundle CLI, the replay-summary CLI/API contract, the review-state baseline,
+      and the direct seed-04 verifier ladder stay green so downstream parity work
+      can treat the overall oracle as committed rather than blocked while worker-state
+      stays green.
+  lane_local_closeout_refs:
+  - _bmad-output/inbox/20260406-1335-qa-parity.md
+  - _bmad-output/run-reports/20260406-1335-qa-parity.md
+  - _bmad-output/inbox/20260406-1345-review-repair.md
+  - _bmad-output/run-reports/20260406-1345-review-repair.md
+  - _bmad-output/inbox/20260406-1356-story-worker.md
+  - _bmad-output/run-reports/20260406-1356-story-worker.md
+  - _bmad-output/inbox/20260406-1428-planning.md
+  - _bmad-output/run-reports/20260406-1428-planning.md
+  - _bmad-output/inbox/20260406-1422-controller.md
+  - _bmad-output/run-reports/20260406-1422-controller.md
+comparison_plan:
+  stdout:
+    exact_after_capture:
+    - N
+    - T
+    - T_pre
+    - T_post
+    - pretest_result
+    display_rounded_after_capture:
+    - severity
+    - kappa
+    - critical_value
+    - delta_bar
+    - ci_conv_lower
+    - ci_conv_upper
+    conditional_ci_after_capture:
+      gate_fields:
+      - pretest_result
+      - e(pretest_pass)
+      - e(data_valid)
+      if_data_valid_and_pass:
+        display_rounded:
+        - ci_lower
+        - ci_upper
+      exact_absence_when_not_authoritative:
+      - ci_lower
+      - ci_upper
+  stored_results:
+    all_authoritative_fields_after_capture:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(sims)
+    - e(seed)
+    - e(se_delta_bar)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_lower)
+    - e(ci_upper)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    exact_after_capture:
+    - e(N)
+    - e(T)
+    - e(T_pre)
+    - e(T_post)
+    - e(t0)
+    - e(n)
+    - e(is_panel)
+    - e(p)
+    - e(alpha)
+    - e(level)
+    - e(M)
+    - e(threshold)
+    - e(sims)
+    - e(seed)
+    - e(se_delta_bar)
+    - e(phi)
+    - e(pretest_pass)
+    - e(data_valid)
+    - e(mode)
+    display_rounded_after_capture:
+    - e(S_pre)
+    - e(kappa)
+    - e(f_alpha)
+    - e(delta_bar)
+    - e(ci_conv_lower)
+    - e(ci_conv_upper)
+    conditional_ci_after_capture:
+      gate_fields:
+      - e(pretest_pass)
+      - e(data_valid)
+      if_data_valid_and_pass:
+        display_rounded:
+        - e(ci_lower)
+        - e(ci_upper)
+      exact_absence_when_not_authoritative:
+      - e(ci_lower)
+      - e(ci_upper)
+    protected_non_authoritative:
+    - e(theta)
+    - e(S_pre_se)
+    diagnostic_only_if_present:
+      contract_ref: pretest_overall_auxiliary_contract.yaml
+      verifier_input_ref: pretest_overall_auxiliary_diagnostic_verifier_input.yaml
+      diagnostic_shape_contract_ref: pretest_overall_auxiliary_diagnostic_verifier_input.yaml#case_specific_expectations
+      safe_inputs:
+      - e(nu)
+      - e(delta)
+      - e(Sigma)
+      shape_requirements:
+      - len(e(nu)) = T_pre - 1 = 3 for PROP99-WINDOW-1985-1995-M5-OVERALL.
+      - len(e(delta)) = T_post = 7 for PROP99-WINDOW-1985-1995-M5-OVERALL.
+      - e(Sigma) stays square with dimension T - 1 = 10 before diagnostic theta^Delta
+        / Sigma^Delta reconstruction.
+      never_promote:
+      - e(theta)
+      - e(S_pre_se)
+    compatibility_aliases_if_present:
+      contract_ref: pretest_stored_results_contract.yaml#compatibility_hazards.stata-att-alias-drift
+      bug_log_id: BUG-SC-001
+      scalar_aliases:
+      - e(ATT)
+      matrix_aliases:
+      - e(b)
+      - e(V)
+      maps_to:
+        e(ATT): e(delta_bar)
+        e(b): delta_bar
+        e(V): se_delta_bar^2
+      never_promote:
+      - e(ATT)
+      - e(b)
+      - e(V)
+      rule: Record these Stata compatibility aliases only as diagnostic evidence if
+        present; never use them as canonical ATT or authoritative replay fields.
+cross_checks:
+- id: OVERALL-MODE-001
+  rule: e(mode) must equal overall.
+- id: OVERALL-MODE-002
+  rule: e(kappa) must equal 1 in overall mode; README/help iterative-only wording
+    is documentation drift under STATA-DOC-KAPPA-001 and must not demote overall e(kappa)
+    out of authoritative capture fields.
+- id: OVERALL-MODE-003
+  rule: e(pretest_pass) must equal 1 - e(phi) when e(phi) is 0 or 1.
+- id: OVERALL-MODE-004
+  rule: Conditional CI fields may promote from unresolved to display_rounded only
+    when data_valid = 1 and pretest_pass = 1; otherwise ci_lower/ci_upper must promote
+    to exact_absence.
+- id: OVERALL-MODE-005
+  rule: Do not escalate e(theta) or e(S_pre_se) mismatches; record them as protected
+    auxiliary outputs under STATA-OVERALL-AUX-001.
+- id: OVERALL-MODE-006
+  rule: If graph generation still ends with error 198 after valid scalar output, keep
+    scalar replay eligible and record graph_status separately.
+- id: OVERALL-MODE-007
+  rule: Any future diagnostic use of overall auxiliaries must go through pretest_overall_auxiliary_contract.yaml
+    and must not promote current Stata e(theta) or e(S_pre_se).
+- id: OVERALL-MODE-008
+  rule: Package-side capture_ready metadata must fail closed unless a precapture_contract
+    is supplied and metadata_payload includes observed_years plus treat_time matching
+    prop99_overall_precapture_contract.yaml.
+- id: OVERALL-MODE-009
+  rule: 'STATA-DOC-CI-OVERALL-001 keeps the generic help prose `kappa * S_pre` outside
+    the overall executable oracle: overall mode has no kappa multiplier and the conditional-CI
+    half-width stays kappa-free.'
+- id: OVERALL-MODE-010
+  rule: 'BUG-SC-001 keeps e(ATT), e(b), and e(V) as compatibility-only delta_bar
+    aliases: if present in raw Stata output, record them diagnostically and never
+    promote them into canonical ATT or authoritative replay buckets.'
+qa_handoff:
+  precapture_contract_ref: prop99_overall_precapture_contract.yaml
+  protected_auxiliary_contract_ref: pretest_overall_auxiliary_contract.yaml
+  auxiliary_diagnostic_verifier_input_ref: pretest_overall_auxiliary_diagnostic_verifier_input.yaml
+  replay_driver_ref: prop99_replay_driver.yaml
+  summary_template_ref: prop99_replay_summary_template.yaml
+  packet_template_ref: prop99_overall_capture_packet_template.yaml
+  blocked_capture_follow_on:
+    story_packet_ref: seed-04-prop99-replay-harness.md
+    prereq_sheet_ref: seed-03-severity-kernel-prereqs.yaml
+    verifier_input_ref: pretest_severity_kernel_verifier_input.yaml
+    active_story_validation_boundary_refs:
+    - pretest-py/src/pretest/validation.py::validate_option_domain()
+    - pretest-py/src/pretest/validation.py::_normalize_numeric_sequence()
+    - pretest-py/tests/test_validation_contract.py::test_validate_option_domain_rejects_string_backed_numeric_sequences
+    - pretest-py/tests/test_validation_contract.py::test_validate_option_domain_rejects_boolean_backed_numeric_sequences
+    - _bmad-output/test-artifacts/parity/verify_story_worker_seed_bundle.py
+    - _bmad-output/test-artifacts/parity/test_verify_story_worker_seed_bundle_post_1853_tail.py
+    rule: While the overall oracle is still blocked, keep seed-04-prop99-replay-harness.md
+      aligned to the seed-03 theorem assets and unresolved-bucket policy rather than
+      fabricated numeric replay.
+  follow_on_if_capture_succeeds:
+  - Promote overall-mode stdout and stored-results fields from unresolved to exact/display_rounded/exact_absence
+    buckets in the replay driver and summary template, using e(data_valid) and e(pretest_pass)
+    as the conditional-CI gate.
+  - Keep e(theta) and e(S_pre_se) outside authoritative parity even after capture.
+  - If raw e(nu), e(delta), and e(Sigma) are present, route them through pretest_overall_auxiliary_diagnostic_verifier_input.yaml
+    for diagnostic theta^Delta/Sigma^Delta reconstruction rather than current-Stata
+    auxiliary promotion.
+  - Sync parity-manifest.yaml and automation-state.yaml to reflect the first observed
+    overall-mode oracle.
+  if_capture_stays_blocked:
+  - Keep unresolved buckets authoritative.
+  - Do not fabricate delta_bar, severity, or CI numerics.
+  - Use seed-04-prop99-replay-harness.md together with the seed-03 prereq sheet and
+    verifier input to keep the formal harness packet ready without weakening the blocked
+    overall boundary.
+latest_same_line_closeout_ref: _bmad-output/run-reports/20260406-1252-story-worker.md
+latest_same_line_closeout_token: 20260406-1252-story-worker

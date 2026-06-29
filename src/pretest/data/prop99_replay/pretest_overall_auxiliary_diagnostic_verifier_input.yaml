@@ -1,0 +1,82 @@
+version: 1
+artifact_id: "pretest-overall-auxiliary-diagnostic-verifier-input-v1"
+frontier_id: "OF-008"
+status: "blocked-diagnostic-helper-ready"
+purpose: "Provide a machine-readable diagnostic-only handoff for reconstructing overall-mode theta^Delta / Sigma^Delta from raw e() snapshots without promoting current Stata auxiliaries into parity oracles."
+authority_order:
+  - "paper-and-mathematical-principles"
+  - "independent-derivation"
+  - "pretest-overall-auxiliary-contract"
+  - "prop99-overall-capture-verifier-input"
+  - "stata-reference-implementation"
+source_refs:
+  - "paper/pretest_paper.md#appendix-c"
+  - "pretest_overall_auxiliary_contract.yaml"
+  - "prop99_overall_capture_verifier_input.yaml"
+  - "_bmad-output/planning-artifacts/seed-04-overall-capture-dependencies.yaml"
+  - "pretest-stata/mata/_pretest_main.mata"
+mode_gate:
+  required_mode: "overall"
+  required_exact_fields:
+    - "e(mode)"
+    - "e(T_pre)"
+    - "e(T_post)"
+  required_raw_inputs:
+    - "e(nu)"
+    - "e(delta)"
+    - "e(Sigma)"
+  blocked_without_raw_snapshot: true
+diagnostic_boundary:
+  protected_results:
+    - "e(theta)"
+    - "e(S_pre_se)"
+  never_authoritative:
+    - "e(theta)"
+    - "e(S_pre_se)"
+  allowed_outputs:
+    - "theta^Delta"
+    - "Sigma^Delta"
+    - "S_pre_se^Delta"
+matrix_rules:
+  pre_block_operator: "A is the lower-triangular ones matrix of dimension (T_pre - 1) x (T_pre - 1)."
+  theta_delta_rule: "theta^Delta = (A * nu, delta)"
+  sigma_delta_rule: "Transform the pre-period block and cross-blocks of e(Sigma) with A to obtain Sigma^Delta."
+  dimension_checks:
+    - "len(theta^Delta) = (T_pre - 1) + T_post = T - 1"
+    - "Sigma^Delta is square with dimension T - 1"
+case_specific_expectations:
+  case_id: "PROP99-WINDOW-1985-1995-M5-OVERALL"
+  sample_window:
+    - 1985
+    - 1995
+  exact_dimensions:
+    T_pre_minus_1: 3
+    T_post: 7
+    theta_delta_length: 10
+    sigma_delta_shape:
+      - 10
+      - 10
+    pre_block_operator_shape:
+      - 3
+      - 3
+  raw_snapshot_requirements:
+    - "len(e(nu)) must equal T_pre - 1 = 3 for the 1985-1995 blocked overall capture."
+    - "len(e(delta)) must equal T_post = 7 for the 1985-1995 blocked overall capture."
+    - "e(Sigma) must be square with dimension T - 1 = 10 before any diagnostic Sigma^Delta reconstruction."
+reconstruction_steps:
+  - "Read e(T_pre), e(T_post), e(nu), e(delta), and e(Sigma) from the raw overall-mode capture."
+  - "Construct A from T_pre - 1 and cumulative-sum the pre block to obtain nu_bar."
+  - "Concatenate nu_bar with e(delta) to obtain diagnostic theta^Delta."
+  - "Transform the covariance pre block and cross-blocks to obtain diagnostic Sigma^Delta."
+  - "If repaired/Python overall auxiliaries exist, compare them against the reconstructed diagnostics rather than current Stata e(theta) or e(S_pre_se)."
+qa_handoff:
+  consumers:
+    - "prop99_overall_capture_verifier_input.yaml"
+    - "seed-04-overall-capture-dependencies.yaml"
+  if_raw_snapshot_arrives:
+    - "Run the dimension checks before any diagnostic reconstruction is recorded."
+    - "Keep reconstructed theta^Delta / Sigma^Delta / S_pre_se^Delta diagnostic-only."
+    - "Do not promote reconstructed outputs into exact, display_rounded, exact_absence, or unresolved parity buckets."
+non_claims:
+  - "This verifier input does not create a fresh overall-mode numeric oracle."
+  - "This verifier input does not close STATA-OVERALL-AUX-001."

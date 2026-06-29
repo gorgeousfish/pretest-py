@@ -1,0 +1,155 @@
+version: 1
+artifact_id: "prop99-overall-precapture-contract-v1"
+frontier_id: "OF-008"
+case_id: "PROP99-WINDOW-1985-1995-M5-OVERALL"
+status: "blocked-helper-ready"
+purpose: "Record exact short-window overall-mode invariants that are knowable before a fresh Stata oracle exists, so QA can validate capture context without promoting unresolved numeric buckets."
+authority_order:
+  - "paper-and-mathematical-principles"
+  - "pretest-paper-first-mode-contract"
+  - "pretest-stored-results-contract"
+  - "prop99-replay-fixture-registry"
+  - "stata-reference-implementation"
+source_refs:
+  - "paper/pretest_paper.md#appendix-c"
+  - "paper/pretest_paper_cn.md"
+  - "Docs/stata包bug列表.md"
+  - "pretest-stata/examples/example_prop99.do"
+  - "pretest-stata/prop99_smoking.dta"
+  - "prop99_replay_fixture_registry.yaml"
+  - "_bmad-output/test-artifacts/parity/pretest_paper_first_mode_contract.yaml"
+  - "_bmad-output/test-artifacts/parity/pretest_overall_mode_bridge_contract.yaml"
+  - "_bmad-output/test-artifacts/parity/pretest_stored_results_contract.yaml"
+  - "_bmad-output/reviews/prop99-example-log-drift.md"
+cross_paper_appendix_c_authority:
+  paper_refs:
+    - "paper/pretest_paper.md"
+    - "paper/pretest_paper_cn.md"
+  bridge_markers:
+    - "nu_bar = A * nu"
+    - "theta^Delta / Sigma^Delta"
+  authority_markers:
+    - "phi^Delta = 0"
+    - "S_pre_hat^Delta <= M"
+    - "kappa-free"
+  rule: "Before capture_ready or numeric promotion can advance, Appendix C authority must stay aligned across both papers: nu_bar = A * nu and theta^Delta / Sigma^Delta define the overall object, phi^Delta = 0 / S_pre_hat^Delta <= M keeps the shared pass boundary explicit, and the overall conditional-CI half-width remains kappa-free."
+documentation_drift_handoff:
+  bug_id: "STATA-DOC-CI-OVERALL-001"
+  evidence_refs:
+    - "Docs/stata包bug列表.md"
+    - "pretest-stata/pretest.sthlp:581-583"
+    - "pretest-stata/pretest.sthlp:666-672"
+  rule: "Treat the generic help prose `kappa * S_pre` as documentation drift only in overall mode: it is not an overall executable oracle because overall mode has no kappa multiplier and the conditional-CI half-width stays kappa-free."
+dataset_slice:
+  source_dataset: "pretest-stata/prop99_smoking.dta"
+  sample_window:
+    - 1985
+    - 1995
+  observed_years:
+    - 1985
+    - 1986
+    - 1987
+    - 1988
+    - 1989
+    - 1990
+    - 1991
+    - 1992
+    - 1993
+    - 1994
+    - 1995
+  treat_time: 1989
+  pre_period_years:
+    - 1985
+    - 1986
+    - 1987
+    - 1988
+  post_period_years:
+    - 1989
+    - 1990
+    - 1991
+    - 1992
+    - 1993
+    - 1994
+    - 1995
+  row_count: 429
+  total_periods: 11
+  pre_period_count: 4
+  post_period_count: 7
+  treated_labels:
+    - "California"
+    - "Control"
+command_contract:
+  command: "pretest cigsale, treatment(treated) time(year) treat_time(1989) threshold(5) overall"
+  mode: "overall"
+  graph_requested: true
+  threshold: 5
+  paper_rule: "Overall mode uses theta^Delta, Sigma^Delta, kappa = 1, phi^Delta = 0 exactly when S_pre_hat^Delta <= M, and the kappa-free bias-bound / CI half-width semantics from Appendix C."
+exact_fields_available_before_capture:
+  stdout:
+    N: 429
+    T: 11
+    T_pre: 4
+    T_post: 7
+  stored_results:
+    e(N): 429
+    e(T): 11
+    e(T_pre): 4
+    e(T_post): 7
+    e(mode): "overall"
+capture_metadata_contract:
+  required_fields:
+    - "capture_ready"
+    - "observed_years"
+    - "treat_time"
+    - "exact_counts_verified"
+    - "raw_e_snapshot_present"
+    - "graph_status"
+    - "numeric_fields_promoted"
+    - "protected_results_excluded"
+  blocked_defaults:
+    capture_ready: false
+    raw_e_snapshot_present: false
+    numeric_fields_promoted: []
+    protected_results_excluded: true
+  verification_rules:
+    - "precapture_contract is required before capture_ready may flip to true."
+    - "observed_years must equal the 1985-1995 window listed in this contract."
+    - "observed_years must be present before capture_ready may flip to true."
+    - "treat_time must be present, equal 1989, and match this contract before capture_ready may flip to true."
+    - "treat_time must be present before capture_ready may flip to true."
+    - "exact_counts_verified must attest N = 429, T = 11, T_pre = 4, and T_post = 7 before any numeric promotion."
+    - "numeric_fields_promoted must stay empty while the fresh overall oracle is still blocked."
+numeric_fields_remaining_unresolved_until_capture:
+  stdout:
+    - "pretest_result"
+    - "severity"
+    - "kappa"
+    - "critical_value"
+    - "delta_bar"
+    - "ci_lower"
+    - "ci_upper"
+    - "ci_conv_lower"
+    - "ci_conv_upper"
+  stored_results:
+    - "e(phi)"
+    - "e(pretest_pass)"
+    - "e(data_valid)"
+    - "e(S_pre)"
+    - "e(kappa)"
+    - "e(f_alpha)"
+    - "e(delta_bar)"
+    - "e(ci_lower)"
+    - "e(ci_upper)"
+    - "e(ci_conv_lower)"
+    - "e(ci_conv_upper)"
+protected_outputs:
+  - "e(theta)"
+  - "e(S_pre_se)"
+follow_on_if_capture_arrives:
+  - "Check the exact pre-capture invariants in this contract before any unresolved bucket is promoted."
+  - "Record graph_status separately from scalar promotion, even if error 198 persists after valid scalar output."
+  - "Continue to exclude e(theta) and e(S_pre_se) from authoritative parity under STATA-OVERALL-AUX-001."
+notes:
+  - "These invariants are safe because they are implied by the dataset slice and command syntax, not by the missing numeric oracle."
+  - "STATA-DOC-KAPPA-001 keeps README/help iterative-only wording downgraded to documentation drift only; blocked overall capture must still reserve e(kappa)=1 as an authoritative stored-result once a fresh oracle exists."
+  - "This contract does not confirm a new Stata bug and does not authorize promotion of severity, delta_bar, or CI numerics."

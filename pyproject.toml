@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pretest-py"
+version = "0.1.0"
+description = "Conditional extrapolation pre-testing for difference-in-differences in Python"
+readme = "README.md"
+license = "AGPL-3.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6"]
+authors = [
+  {name = "Xuanyu Cai", email = "xuanyuCAI@outlook.com"},
+  {name = "Wenli Xu", email = "wlxu@cityu.edu.mo"},
+]
+maintainers = [
+  {name = "Xuanyu Cai", email = "xuanyuCAI@outlook.com"},
+]
+keywords = ["difference-in-differences", "pretest", "causal-inference", "econometrics"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9", "pytest-asyncio>=0.25,<1"]
+data = ["pandas>=2"]
+progress = ["tqdm>=4"]
+paper = ["build>=1.2", "matplotlib>=3.8", "numpy>=2", "twine>=6", "pandas>=2"]
+docs = ["sphinx>=7.0", "sphinx-rtd-theme>=2.0", "sphinx-autodoc-typehints>=2.0", "myst-parser>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/gorgeousfish/pretest"
+Repository = "https://github.com/gorgeousfish/pretest"
+Documentation = "https://github.com/gorgeousfish/pretest/tree/main/pretest-py"
+Issues = "https://github.com/gorgeousfish/pretest/issues"
+Changelog = "https://github.com/gorgeousfish/pretest/blob/main/pretest-py/CHANGELOG.md"
+
+[project.scripts]
+pretest = "pretest.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = false
+
+[tool.setuptools.package-data]
+pretest = [
+  "py.typed",
+]
+
+[tool.setuptools.exclude-package-data]
+pretest = [
+  "data/prop99_replay/results/stata/*-capture-status-drift.yaml",
+  "data/prop99_replay/results/stata/tmp-*.yaml",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]

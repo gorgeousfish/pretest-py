@@ -1,0 +1,43 @@
+case_id: PROP99-WINDOW-1985-1995-M5-ITER
+producer: stata
+capture_kind: critical-value-probe
+capture_status: captured-critical-value-probe
+method_authority:
+  - paper/pretest_paper.md Appendix D.5
+  - pretest-stata/mata/_pretest_psi.mata::_pretest_critical_value()
+stata_rng_probe:
+  seed: 12345
+  dimension: 10
+  first_standard_normal_draw:
+    - 0.95919998379642624
+    - -0.00180503192612333
+    - 0.54407705019581565
+    - 0.00162871393917254
+    - 0.35768090610132686
+    - 1.87886768099829293
+    - 2.75474598030433082
+    - -0.61259683342565530
+    - 0.19730792650559859
+    - 1.61022382037434020
+  first_transformed_draw:
+    - 105.84553749225761976
+    - -53.17620495212126031
+    - 50.81930360709592520
+    - 0.00000001628713939
+    - 39.56042509361686399
+    - 187.84278415147960573
+    - 314.07508304539419441
+    - 97.74863748735123181
+    - 151.21033394005465311
+    - 273.72957463689897395
+  first_psi: 484.82595943930505200
+  source: 'stata-mp stdin: rseed(12345); W=rnormal(10,1,0,1); Z=cholesky(Sigma+1e-10*I(10))*W'
+stata_order_statistic_probe:
+  quantile_idx: 4751
+  previous: 891.95306086849916483
+  f_alpha: 894.40683825976054777
+  max: 1586.62601420848
+  tail_at_previous: 251
+  tail_at_f_alpha: 250
+  first_sorted: 30.36169611170462801
+  source: 'stata-mp stdin: quietly pretest ...; Sigma=st_matrix("e(Sigma)"); sort 5000 Mata psi draws'

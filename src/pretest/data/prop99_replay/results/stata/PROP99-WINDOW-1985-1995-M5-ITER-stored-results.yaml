@@ -1,0 +1,68 @@
+version: 1
+case_id: PROP99-WINDOW-1985-1995-M5-ITER
+producer: stata
+capture_kind: stored-results
+capture_status: captured-e-snapshot-verified
+planned_fields:
+- e(N)
+- e(T)
+- e(T_pre)
+- e(T_post)
+- e(t0)
+- e(n)
+- e(is_panel)
+- e(p)
+- e(alpha)
+- e(level)
+- e(M)
+- e(threshold)
+- e(se_delta_bar)
+- e(sims)
+- e(seed)
+- e(phi)
+- e(pretest_pass)
+- e(data_valid)
+- e(mode)
+- e(S_pre)
+- e(kappa)
+- e(f_alpha)
+- e(delta_bar)
+- e(ci_lower)
+- e(ci_upper)
+- e(ci_conv_lower)
+- e(ci_conv_upper)
+source_refs:
+- _bmad-output/test-artifacts/parity/pretest_stored_results_contract.yaml
+- pretest-stata/pretest.sthlp
+numeric_payload:
+  e(N): 429
+  e(T): 11
+  e(T_pre): 4
+  e(T_post): 7
+  e(t0): 5
+  e(n): 429
+  e(is_panel): 0
+  e(p): 2
+  e(alpha): 0.05
+  e(level): 95
+  e(M): 5
+  e(threshold): 5
+  e(sims): 5000
+  e(seed): 12345
+  e(se_delta_bar): 3.47132977326364
+  e(phi): 0
+  e(pretest_pass): 1
+  e(data_valid): 1
+  e(mode): iterative
+  e(S_pre): 2.1767337999827
+  e(kappa): 4.47213595499958
+  e(f_alpha): 894.406838259761
+  e(delta_bar): -9.34210595152432
+  e(ci_lower): -62.2591245120885
+  e(ci_upper): 43.5749126090399
+  e(ci_conv_lower): -16.1457872855826
+  e(ci_conv_upper): -2.53842461746599
+mode: iterative
+sample_window:
+- 1985
+- 1995

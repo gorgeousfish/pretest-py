@@ -1,0 +1,28 @@
+version: 1
+case_id: PROP99-FULL-M5-ITER
+producer: python
+capture_kind: stdout
+capture_status: blocked-pending-python-implementation
+planned_fields:
+- N
+- T
+- T_pre
+- T_post
+- pretest_result
+- severity
+- kappa
+- critical_value
+- delta_bar
+- ci_lower
+- ci_upper
+- ci_conv_lower
+- ci_conv_upper
+source_refs:
+- _bmad-output/test-artifacts/parity/prop99_replay_summary_template.yaml
+- _bmad-output/test-artifacts/parity/prop99_replay_driver.yaml
+- _bmad-output/test-artifacts/parity/prop99_iterative_stdout_anchor_contract.yaml
+numeric_payload: null
+mode: iterative
+sample_window:
+- 1970
+- 2000

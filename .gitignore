@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.tmp/
+.tmp_cli_repro/
+.tmp_inspect_dist/
+build/
+build 2/
+dist/
+dist-release-gate/
+.release-smoke-venv/
+pretest_py-*/
+*.egg-info/
+.venv/
+docs/_build/
+
+# Exclude from public repo
+tests/
+.benchmarks/
