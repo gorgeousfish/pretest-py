@@ -12,21 +12,24 @@ license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = ["PyYAML>=6"]
 authors = [
-  {name = "Xuanyu Cai", email = "xuanyuCAI@outlook.com"},
-  {name = "Wenli Xu", email = "wlxu@cityu.edu.mo"},
+  {name = "Xuanyu Cai"},
+  {name = "Wenli Xu"},
 ]
 maintainers = [
-  {name = "Xuanyu Cai", email = "xuanyuCAI@outlook.com"},
+  {name = "Xuanyu Cai"},
+  {name = "Wenli Xu"},
 ]
 keywords = ["difference-in-differences", "pretest", "causal-inference", "econometrics"]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Mathematics",
 ]
 
 [project.optional-dependencies]
