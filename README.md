@@ -30,7 +30,7 @@ import pretest
 
 df, dgp = pretest.generate_did_data_from_preset("small_violation", n_units=200, seed=42)
 snapshot = pretest.pretest_from_dataframe(
-    df, outcome="y", treatment="treat", time="time",
+    df, outcome="outcome", treatment="treatment", time="time",
     threshold=1.0, treat_time=6, mode="iterative", seed=42,
 )
 print(snapshot.reporting_summary()["decision"])  # "PASS" or "FAIL"
@@ -89,8 +89,8 @@ df, dgp = pretest.generate_did_data_from_preset("small_violation", n_units=200, 
 # Run the full pre-test pipeline
 snapshot = pretest.pretest_from_dataframe(
     df,
-    outcome="y",
-    treatment="treat",
+    outcome="outcome",
+    treatment="treatment",
     time="time",
     threshold=1.0,
     treat_time=6,
