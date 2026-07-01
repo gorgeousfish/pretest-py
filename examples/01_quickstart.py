@@ -5,7 +5,7 @@ extrapolation pre-test framework (Mikhaeil & Harshaw, 2026). It creates
 a synthetic DID dataset, runs the pre-test, and interprets the results.
 
 Requirements:
-    pip install pretest[data] matplotlib
+    pip install pretest-did[data] matplotlib
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ print("=" * 70)
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas is required. Install with: pip install pretest[data]")
+    print("\nERROR: pandas is required. Install with: pip install pretest-did[data]")
     sys.exit(1)
 
 import pretest

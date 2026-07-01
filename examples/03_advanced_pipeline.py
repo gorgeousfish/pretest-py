@@ -19,7 +19,7 @@ Steps covered:
     11. Integration with external DID tools (e.g., PyFixest)
 
 Requirements:
-    pip install pretest[data]
+    pip install pretest-did[data]
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ print("=" * 70)
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas required. Install with: pip install pretest[data]")
+    print("\nERROR: pandas required. Install with: pip install pretest-did[data]")
     sys.exit(1)
 
 import pretest

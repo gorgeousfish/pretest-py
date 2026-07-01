@@ -714,7 +714,7 @@ def plot_event_study_from_dataframe(
     except ImportError as exc:
         raise ImportError(
             "plot_event_study_from_dataframe requires pandas. "
-            "Install with: pip install pretest[data]"
+            "Install with: pip install pretest-did[data]"
         ) from exc
 
     if not isinstance(df, pd.DataFrame):

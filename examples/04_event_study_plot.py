@@ -11,7 +11,7 @@ pretest, including:
     7. Integration with matplotlib (annotations, axis adjustments)
 
 Requirements:
-    pip install pretest[data] matplotlib
+    pip install pretest-did[data] matplotlib
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ print("=" * 70)
 try:
     import pandas as pd
 except ImportError:
-    print("\nERROR: pandas required. Install with: pip install pretest[data]")
+    print("\nERROR: pandas required. Install with: pip install pretest-did[data]")
     sys.exit(1)
 
 try:

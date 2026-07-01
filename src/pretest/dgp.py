@@ -121,7 +121,7 @@ def generate_did_data(config: DGPConfig) -> Any:
     except ImportError as exc:
         raise ImportError(
             "generate_did_data requires pandas. "
-            "Install with: pip install pretest[data]"
+            "Install with: pip install pretest-did[data]"
         ) from exc
 
     rng = random.Random(config.seed)

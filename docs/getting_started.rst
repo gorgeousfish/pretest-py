@@ -16,7 +16,7 @@ Installation
 
 .. code-block:: bash
 
-   pip install "pretest[data]"
+   pip install "pretest-did[data]"
 
 **Development install** (from a local clone):
 
@@ -41,23 +41,23 @@ The package ships with several dependency groups:
      - Used by
    * - ``data``
      - pandas DataFrame API (:func:`pretest.pretest_from_dataframe`)
-     - ``pip install "pretest[data]"``
+     - ``pip install "pretest-did[data]"``
      - DataFrame API, Tutorials 1--3
    * - ``progress``
      - tqdm progress bars in Monte Carlo runs
-     - ``pip install "pretest[progress]"``
+     - ``pip install "pretest-did[progress]"``
      - Monte Carlo long runs (optional)
    * - ``paper``
      - matplotlib plotting, numpy, build/publish tools
-     - ``pip install "pretest[paper]"``
+     - ``pip install "pretest-did[paper]"``
      - Event Study Plot, Tutorial 4
    * - ``docs``
      - Sphinx documentation build chain
-     - ``pip install "pretest[docs]"``
+     - ``pip install "pretest-did[docs]"``
      - Documentation builds only
    * - ``test``
      - pytest and related testing utilities
-     - ``pip install "pretest[test]"``
+     - ``pip install "pretest-did[test]"``
      - Test suite only
 
 Python version

@@ -8,7 +8,7 @@ The Prop99 window case (1985-1995, M=5) is the paper's primary empirical
 illustration of the conditional extrapolation pre-test framework.
 
 Requirements:
-    pip install pretest[data] matplotlib
+    pip install pretest-did[data] matplotlib
 """
 
 from __future__ import annotations

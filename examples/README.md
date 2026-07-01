@@ -5,7 +5,7 @@ Runnable tutorials demonstrating the conditional extrapolation pre-test framewor
 ## Prerequisites
 
 ```bash
-pip install pretest[data]     # pandas support
+pip install pretest-did[data]     # pandas support
 pip install matplotlib           # for plotting examples
 ```
 

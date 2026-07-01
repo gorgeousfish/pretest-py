@@ -63,7 +63,7 @@ periods (*T*<sub>pre</sub> < 2).
 ## Installation
 
 ```bash
-pip install pretest
+pip install pretest-did
 ```
 
 From GitHub:

@@ -46,7 +46,7 @@ def _validate_dataframe(df: Any) -> None:
     except ImportError as exc:
         raise ImportError(
             "pretest_from_dataframe requires pandas. "
-            "Install with: pip install pretest[data]"
+            "Install with: pip install pretest-did[data]"
         ) from exc
     if not isinstance(df, pd.DataFrame):
         raise TypeError("df must be a pandas DataFrame")

@@ -44,7 +44,7 @@ source repository.
 1. Quickstart
 -------------
 
-**Requires:** ``pip install "pretest[data]"``
+**Requires:** ``pip install "pretest-did[data]"``
 
 **File:** ``examples/01_quickstart.py``
 
@@ -65,7 +65,7 @@ Run:
 2. Prop 99 Replication
 ----------------------
 
-**Requires:** ``pip install "pretest[data]"``
+**Requires:** ``pip install "pretest-did[data]"``
 
 **File:** ``examples/02_prop99_replication.py``
 
@@ -87,7 +87,7 @@ Run:
 3. Advanced Pipeline
 --------------------
 
-**Requires:** ``pip install "pretest[data]"``
+**Requires:** ``pip install "pretest-did[data]"``
 
 **File:** ``examples/03_advanced_pipeline.py``
 
@@ -110,7 +110,7 @@ Run:
 4. Event Study Plot
 -------------------
 
-**Requires:** ``pip install "pretest[data,paper]"``
+**Requires:** ``pip install "pretest-did[data,paper]"``
 
 **File:** ``examples/04_event_study_plot.py``
 
@@ -133,7 +133,7 @@ Run:
 5. Monte Carlo Simulation
 --------------------------
 
-**Requires:** ``pip install "pretest[data]"`` (``progress`` extra optional for progress bars)
+**Requires:** ``pip install "pretest-did[data]"`` (``progress`` extra optional for progress bars)
 
 **File:** ``examples/05_monte_carlo_simulation.py``
 

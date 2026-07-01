@@ -8,7 +8,7 @@ This tutorial demonstrates:
 5. Customizing DGP configurations
 
 Requirements:
-    pip install pretest[data]
+    pip install pretest-did[data]
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import time
 try:
     import pandas as pd
 except ImportError:
-    print("ERROR: pandas is required. Install with: pip install pretest[data]")
+    print("ERROR: pandas is required. Install with: pip install pretest-did[data]")
     sys.exit(1)
 
 import pretest
